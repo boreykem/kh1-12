@@ -191,7 +191,6 @@ function openMathGame(lessonId, lessonTitle, lessonIndex) {
     const titleElem = document.getElementById('quiz-lesson-title');
     if (titleElem) titleElem.innerText = currentLessonTitle;
 
-    startQuizTimer();
     updateQuizProgress();
     generateMathProblem();
 }
@@ -202,16 +201,32 @@ function closeMathGame() {
     document.getElementById('feedback-msg').innerText = '';
 }
 
-function startQuizTimer() {
+function startQuizTimer(seconds = 30) {
     clearInterval(quizState.timerInterval);
-    quizState.timer = 30;
+    quizState.timer = seconds;
     const timerElem = document.getElementById('quiz-timer');
-    if (timerElem) timerElem.innerText = '00:30';
+    
+    const formatTime = (totalSecs) => {
+        const mins = Math.floor(totalSecs / 60);
+        const remSecs = totalSecs % 60;
+        return `${mins < 10 ? '0' + mins : mins}:${remSecs < 10 ? '0' + remSecs : remSecs}`;
+    };
+
+    if (timerElem) {
+        timerElem.innerText = formatTime(quizState.timer);
+        timerElem.style.background = 'rgba(239, 68, 68, 0.1)';
+        timerElem.style.color = '#ef4444';
+    }
 
     quizState.timerInterval = setInterval(() => {
         quizState.timer--;
-        const formatted = quizState.timer < 10 ? `00:0${quizState.timer}` : `00:${quizState.timer}`;
-        if (timerElem) timerElem.innerText = formatted;
+        if (timerElem) {
+            timerElem.innerText = formatTime(quizState.timer);
+            if (quizState.timer <= 10) {
+                timerElem.style.background = '#ef4444';
+                timerElem.style.color = 'white';
+            }
+        }
 
         if (quizState.timer <= 0) {
             clearInterval(quizState.timerInterval);
@@ -228,7 +243,7 @@ function startQuizTimer() {
             // Reveal correct answer and disable buttons
             const buttons = document.querySelectorAll('.game-option');
             buttons.forEach(btn => {
-                if (parseInt(btn.innerText) === currentCorrectAnswer) {
+                if (parseInt(btn.dataset.val) === currentCorrectAnswer) {
                     btn.style.background = '#10b981'; // highlight correct
                 }
                 btn.disabled = true;
@@ -238,7 +253,6 @@ function startQuizTimer() {
                 if (quizState.currentQuestion < quizState.totalQuestions) {
                     quizState.currentQuestion++;
                     updateQuizProgress();
-                    startQuizTimer();
                     generateMathProblem();
                 } else {
                     showLessonVictory();
@@ -290,12 +304,16 @@ function generateMathProblem() {
         }
         currentCorrectAnswer = wp.correctAnswer;
         unit = wp.unit ? ` ${wp.unit}` : '';
+        // 60 Seconds Timer for Word Problems!
+        startQuizTimer(60);
     } else {
         if (wordCard) wordCard.classList.add('hidden');
         if (eqElem) {
             eqElem.style.fontSize = '3.5rem';
             eqElem.style.marginBottom = '1.5rem';
         }
+        // 30 Seconds Timer for Fast Arithmetic!
+        startQuizTimer(30);
 
         // Adapt operation based on lesson topic
         let num1 = 10, num2 = 5, operation = '+';
@@ -441,7 +459,6 @@ function checkAnswer(selected) {
             if (quizState.currentQuestion < quizState.totalQuestions) {
                 quizState.currentQuestion++;
                 updateQuizProgress();
-                startQuizTimer();
                 generateMathProblem();
             } else {
                 showLessonVictory();
@@ -468,7 +485,6 @@ function checkAnswer(selected) {
             if (quizState.currentQuestion < quizState.totalQuestions) {
                 quizState.currentQuestion++;
                 updateQuizProgress();
-                startQuizTimer();
                 generateMathProblem();
             } else {
                 showLessonVictory();
