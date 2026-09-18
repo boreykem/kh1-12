@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klemtech - Math & Science Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Suwannaphum:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="junior-theme">
+        <!-- Navigation / Header -->
+        <header class="glass-header">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i> 
+                <span>Klemtech <small>ឆ្លាត (Smart)</small></span>
+            </div>
+            
+            <div class="controls">
+                <div class="grade-selector">
+                    <label for="grade-select">Grade (ថ្នាក់):</label>
+                    <select id="grade-select">
+                        <optgroup label="Primary (បឋមសិក្សា)">
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4" selected>Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                        </optgroup>
+                        <optgroup label="Secondary (អនុវិទ្យាល័យ & វិទ្យាល័យ)">
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9 (National Exam)</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12 (Bac II)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <button id="parent-toggle-btn" class="btn btn-outline">
+                    <i class="fa-solid fa-users"></i> Parent Mode
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Student View -->
+        <main id="student-view" class="view active-view">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 id="welcome-msg">Welcome back, Hero! <span class="khmer-text">សួស្តី!</span></h1>
+                    <p id="hero-subtext">Ready for today's Math and Science challenges?</p>
+                </div>
+                <div class="stats-pills">
+                    <div class="pill"><i class="fa-solid fa-star text-yellow"></i> 1,240 XP</div>
+                    <div class="pill"><i class="fa-solid fa-fire text-orange"></i> 5 Day Streak</div>
+                </div>
+            </section>
+
+            <section class="subjects-grid">
+                <!-- Math Subject Card -->
+                <div class="subject-card math-card">
+                    <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <h2>Math <span class="khmer-text">គណិតវិទ្យា</span></h2>
+                    <p id="math-topic">Fractions & Decimals</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                    <button class="btn btn-primary play-btn" onclick="openMathGame()">Play Now <i class="fa-solid fa-play"></i></button>
+                </div>
+
+                <!-- Science Subject Card -->
+                <div class="subject-card science-card">
+                    <div class="card-icon"><i class="fa-solid fa-flask"></i></div>
+                    <h2>Science <span class="khmer-text">វិទ្យាសាស្ត្រ</span></h2>
+                    <p id="science-topic">Plant Lifecycle</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                    <button class="btn btn-primary play-btn">Explore <i class="fa-solid fa-rocket"></i></button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Math Game Overlay (Interactive Component) -->
+        <div id="math-game-overlay" class="overlay hidden">
+            <div class="game-container glass-panel">
+                <button class="close-btn" onclick="closeMathGame()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="game-header">
+                    <h3>Quick Challenge!</h3>
+                    <div class="timer">00:30</div>
+                </div>
+                
+                <div class="equation" id="game-equation">
+                    <span id="num1">4</span> + <span id="num2">7</span> = ?
+                </div>
+                
+                <div class="options-grid" id="game-options">
+                    <button class="game-option" onclick="checkAnswer(9)">9</button>
+                    <button class="game-option" onclick="checkAnswer(11)">11</button>
+                    <button class="game-option" onclick="checkAnswer(13)">13</button>
+                    <button class="game-option" onclick="checkAnswer(10)">10</button>
+                </div>
+
+                <div id="feedback-msg" class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Parent View -->
+        <main id="parent-view" class="view hidden">
+            <section class="parent-hero">
+                <h1>Parent Dashboard <span class="khmer-text">ផ្ទាំងព័ត៌មានមាតាបិតា</span></h1>
+                <p>Track your child's progress and see how you can help at home.</p>
+            </section>
+
+            <div class="dashboard-grid">
+                <div class="glass-panel stat-panel">
+                    <h3>Time Spent This Week</h3>
+                    <div class="big-number">4h 12m</div>
+                    <p class="trend positive"><i class="fa-solid fa-arrow-up"></i> 15% from last week</p>
+                </div>
+                
+                <div class="glass-panel stat-panel">
+                    <h3>Strongest Subject</h3>
+                    <div class="big-number text-blue">Math</div>
+                    <p>Excelling in Fractions</p>
+                </div>
+
+                <div class="glass-panel action-panel">
+                    <h3>At-Home Activity Suggestion</h3>
+                    <div class="activity-card">
+                        <div class="icon"><i class="fa-solid fa-cookie-bite"></i></div>
+                        <div>
+                            <h4>Baking Fractions</h4>
+                            <p>Next time you cook, ask your child to measure 1/2 or 1/4 of ingredients to reinforce their math lesson!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
