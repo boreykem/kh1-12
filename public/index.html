@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klemtech - Math & Science Learning</title>
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" href="styles.css?v=8">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -115,6 +115,13 @@
                 <div class="quiz-progress-wrap">
                     <div class="quiz-progress-bar" id="quiz-progress-fill" style="width: 20%;"></div>
                 </div>
+
+                <!-- Question Type Badge -->
+                <div style="display: flex; justify-content: center;">
+                    <div class="qtype-badge" id="quiz-qtype-badge">
+                        <i class="fa-solid fa-star"></i> <span id="qtype-badge-text">ពហុជ្រើសរើស</span>
+                    </div>
+                </div>
                 
                 <!-- Word Problem (ចំណោទ) Display Card -->
                 <div class="word-problem-card hidden" id="game-word-problem">
@@ -122,15 +129,82 @@
                     <div class="problem-question" id="problem-question-text"></div>
                 </div>
 
+                <!-- Equation Display (used by MCQ and Word Problem) -->
                 <div class="equation" id="game-equation">
                     <span id="num1">4</span> + <span id="num2">7</span> = ?
                 </div>
                 
+                <!-- Format 1: Multiple Choice Options Grid -->
                 <div class="options-grid" id="game-options">
                     <button class="game-option" onclick="checkAnswer(9)">9</button>
                     <button class="game-option" onclick="checkAnswer(11)">11</button>
                     <button class="game-option" onclick="checkAnswer(13)">13</button>
                     <button class="game-option" onclick="checkAnswer(10)">10</button>
+                </div>
+
+                <!-- Format 2: True / False Grid -->
+                <div class="tf-grid hidden" id="game-tf-options">
+                    <button class="tf-btn tf-true" id="tf-btn-true" onclick="checkTrueFalseAnswer(true)">
+                        <div class="tf-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="tf-text">ត្រូវ (ពិត)</div>
+                    </button>
+                    <button class="tf-btn tf-false" id="tf-btn-false" onclick="checkTrueFalseAnswer(false)">
+                        <div class="tf-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                        <div class="tf-text">ខុស (មិនពិត)</div>
+                    </button>
+                </div>
+
+                <!-- Format 3: Fill in the Blank (Input + Mobile Friendly Keypad) -->
+                <div class="fillblank-container hidden" id="game-fillblank">
+                    <div class="fillblank-prompt" id="fillblank-prompt-text">ចូររកតម្លៃលេខដាក់ក្នុងសញ្ញា [ ❓ ]</div>
+                    <div class="fillblank-equation-display" id="fillblank-eq-display">
+                        15 + <span class="fillblank-box-target">❓</span> = 20
+                    </div>
+                    <div class="fillblank-input-wrap">
+                        <input type="text" id="fillblank-input" class="fillblank-input" readonly placeholder="?" />
+                    </div>
+                    <div class="fillblank-keypad">
+                        <button type="button" class="key-btn" onclick="pressFillKey('1')">1</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('2')">2</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('3')">3</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('4')">4</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('5')">5</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('6')">6</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('7')">7</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('8')">8</button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('9')">9</button>
+                        <button type="button" class="key-btn key-action" onclick="pressFillKey('del')" title="លុប"><i class="fa-solid fa-delete-left"></i></button>
+                        <button type="button" class="key-btn" onclick="pressFillKey('0')">0</button>
+                        <button type="button" class="key-btn key-submit" onclick="submitFillBlank()" title="ផ្ទៀងផ្ទាត់"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                </div>
+
+                <!-- Format 4: Matching Pairs -->
+                <div class="matching-container hidden" id="game-matching">
+                    <div class="matching-instruction" id="matching-instruction-text">
+                        ចុចជ្រើសសំណួរខាងឆ្វេង រួចចុចចម្លើយត្រូវខាងស្តាំ
+                    </div>
+                    <div class="matching-columns">
+                        <div class="matching-col left-col" id="matching-left-col">
+                            <!-- Injected dynamically -->
+                        </div>
+                        <div class="matching-col right-col" id="matching-right-col">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Format 5: Ordering / Sequencing -->
+                <div class="ordering-container hidden" id="game-ordering">
+                    <div class="ordering-prompt" id="ordering-prompt-text">
+                        ចូរចុចជ្រើសរើសលេខពី «តូច ទៅ ធំ» តាមលំដាប់លំដោយ៖
+                    </div>
+                    <div class="ordered-slots" id="ordering-slots-tray">
+                        <!-- Placed chips -->
+                    </div>
+                    <div class="ordering-pool" id="ordering-pool-tray">
+                        <!-- Chips to choose from -->
+                    </div>
                 </div>
 
                 <div id="feedback-msg" class="feedback"></div>
@@ -247,6 +321,7 @@
     </div>
 
     <script src="word_problems.js"></script>
-    <script src="app.js?v=7"></script>
+    <script src="question_engine.js?v=1"></script>
+    <script src="app.js?v=8"></script>
 </body>
 </html>

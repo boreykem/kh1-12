@@ -111,7 +111,13 @@ let quizState = {
     earnedXp: 0,
     isProcessingAnswer: false,
     timer: 30,
-    timerInterval: null
+    timerInterval: null,
+    activeProblem: null,
+    fillBlankValue: '',
+    selectedMatchLeft: null,
+    matchedCount: 0,
+    totalPairsToMatch: 0,
+    orderedSelected: []
 };
 
 async function renderLearningMap(subject) {
@@ -233,30 +239,54 @@ function startQuizTimer(seconds = 30) {
             if (quizState.isProcessingAnswer) return;
             quizState.isProcessingAnswer = true;
             quizState.wrongAttempts++;
+            quizState.currentQuestionHasError = true;
 
             const feedback = document.getElementById('feedback-msg');
-            if (feedback) {
-                feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
-                feedback.className = 'feedback wrong';
+            const prob = quizState.activeProblem;
+
+            if (prob && prob.type === 'true_false') {
+                if (feedback) {
+                    feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${prob.correctAnswer ? 'ត្រូវ (ពិត)' : 'ខុស (មិនពិត)'}</b> (+0 XP)`;
+                    feedback.className = 'feedback wrong';
+                }
+                const correctBtn = prob.correctAnswer ? document.getElementById('tf-btn-true') : document.getElementById('tf-btn-false');
+                if (correctBtn) correctBtn.style.border = '4px solid #ffffff';
+            } else if (prob && prob.type === 'fill_blank') {
+                if (feedback) {
+                    feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> តម្លៃត្រឹមត្រូវគឺ <b>${prob.correctAnswer}</b> (+0 XP)`;
+                    feedback.className = 'feedback wrong';
+                }
+                const input = document.getElementById('fillblank-input');
+                if (input) {
+                    input.value = prob.correctAnswer;
+                    input.style.borderColor = '#ef4444';
+                }
+            } else if (prob && prob.type === 'matching') {
+                if (feedback) {
+                    feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> (+0 XP)`;
+                    feedback.className = 'feedback wrong';
+                }
+            } else if (prob && prob.type === 'ordering') {
+                if (feedback) {
+                    feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> លំដាប់ត្រឹមត្រូវគឺ <b>${prob.correctOrder.join(' < ')}</b> (+0 XP)`;
+                    feedback.className = 'feedback wrong';
+                }
+            } else {
+                if (feedback) {
+                    feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
+                    feedback.className = 'feedback wrong';
+                }
+                const buttons = document.querySelectorAll('.game-option');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.dataset.val) === currentCorrectAnswer) {
+                        btn.style.background = '#10b981';
+                    }
+                    btn.disabled = true;
+                });
             }
 
-            // Reveal correct answer and disable buttons
-            const buttons = document.querySelectorAll('.game-option');
-            buttons.forEach(btn => {
-                if (parseInt(btn.dataset.val) === currentCorrectAnswer) {
-                    btn.style.background = '#10b981'; // highlight correct
-                }
-                btn.disabled = true;
-            });
-
             setTimeout(() => {
-                if (quizState.currentQuestion < quizState.totalQuestions) {
-                    quizState.currentQuestion++;
-                    updateQuizProgress();
-                    generateMathProblem();
-                } else {
-                    showLessonVictory();
-                }
+                advanceToNextQuestion();
             }, 1800);
         }
     }, 1000);
@@ -271,164 +301,430 @@ function updateQuizProgress() {
     if (counterElem) counterElem.innerHTML = `<i class="fa-solid fa-list-check"></i> សំណួរទី <b>${quizState.currentQuestion}/${quizState.totalQuestions}</b>`;
 }
 
+function hideAllQuestionContainers() {
+    const ids = [
+        'game-word-problem',
+        'game-equation',
+        'game-options',
+        'game-tf-options',
+        'game-fillblank',
+        'game-matching',
+        'game-ordering'
+    ];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+}
+
 function generateMathProblem() {
     quizState.currentQuestionHasError = false;
     quizState.isProcessingAnswer = false;
+    hideAllQuestionContainers();
+
+    const feedback = document.getElementById('feedback-msg');
+    if (feedback) {
+        feedback.innerText = '';
+        feedback.className = 'feedback';
+    }
 
     const grade = parseInt(document.getElementById('grade-select').value) || 1;
     const title = currentLessonTitle || '';
-    
-    const wordCard = document.getElementById('game-word-problem');
-    const storyElem = document.getElementById('problem-story-text');
-    const questionElem = document.getElementById('problem-question-text');
-    const eqElem = document.getElementById('game-equation');
 
-    // Alternate word problem and numerical equation:
-    // Questions 1, 3, 5 are Word Problems (ចំណោទ)
-    let wp = null;
-    if (typeof generateWordProblem === 'function' && (quizState.currentQuestion % 2 !== 0 || Math.random() < 0.6)) {
-        wp = generateWordProblem(grade, title);
-    }
-
-    let unit = '';
-    if (wp) {
-        if (wordCard) {
-            wordCard.classList.remove('hidden');
-            if (storyElem) storyElem.innerText = wp.story;
-            if (questionElem) questionElem.innerText = wp.question;
-        }
-        if (eqElem) {
-            eqElem.style.fontSize = '1.6rem';
-            eqElem.style.marginBottom = '1.2rem';
-            eqElem.innerHTML = `<span>រូបមន្ត៖ ${wp.equation}</span>`;
-        }
-        currentCorrectAnswer = wp.correctAnswer;
-        unit = wp.unit ? ` ${wp.unit}` : '';
-        // 60 Seconds Timer for Word Problems!
-        startQuizTimer(60);
+    // Generate Question according to step
+    let problem = null;
+    if (window.QuestionEngine && typeof QuestionEngine.generateQuestionForStep === 'function') {
+        problem = QuestionEngine.generateQuestionForStep(quizState.currentQuestion, quizState.totalQuestions, grade, title);
     } else {
-        if (wordCard) wordCard.classList.add('hidden');
+        problem = {
+            type: 'mcq',
+            badgeText: 'ពហុជ្រើសរើស',
+            badgeIcon: 'fa-list-check',
+            equation: '5 + 5 = ?',
+            options: [10, 8, 12, 15],
+            correctAnswer: 10,
+            unit: '',
+            timerSecs: 30
+        };
+    }
+    quizState.activeProblem = problem;
+
+    // Update Badge
+    const badgeElem = document.getElementById('quiz-qtype-badge');
+    if (badgeElem) {
+        badgeElem.innerHTML = `<i class="fa-solid ${problem.badgeIcon || 'fa-star'}"></i> <span>${problem.badgeText || 'សំណួរអនុវត្ត'}</span>`;
+    }
+
+    // Render by type
+    if (problem.type === 'true_false') {
+        const eqElem = document.getElementById('game-equation');
+        const tfContainer = document.getElementById('game-tf-options');
+        const trueBtn = document.getElementById('tf-btn-true');
+        const falseBtn = document.getElementById('tf-btn-false');
+
         if (eqElem) {
-            eqElem.style.fontSize = '3.5rem';
-            eqElem.style.marginBottom = '1.5rem';
+            eqElem.classList.remove('hidden');
+            eqElem.style.fontSize = 'clamp(1.5rem, 4.5vw, 2.3rem)';
+            eqElem.style.marginBottom = '1.2rem';
+            eqElem.innerHTML = `<span>${problem.statement}</span>`;
         }
-        // 30 Seconds Timer for Fast Arithmetic!
-        startQuizTimer(30);
+        if (tfContainer) tfContainer.classList.remove('hidden');
+        if (trueBtn) {
+            trueBtn.disabled = false;
+            trueBtn.style.opacity = '1';
+            trueBtn.style.border = '2px solid rgba(255, 255, 255, 0.2)';
+            trueBtn.style.transform = 'none';
+        }
+        if (falseBtn) {
+            falseBtn.disabled = false;
+            falseBtn.style.opacity = '1';
+            falseBtn.style.border = '2px solid rgba(255, 255, 255, 0.2)';
+            falseBtn.style.transform = 'none';
+        }
+        startQuizTimer(problem.timerSecs || 30);
 
-        // Adapt operation based on lesson topic
-        let num1 = 10, num2 = 5, operation = '+';
+    } else if (problem.type === 'fill_blank') {
+        const fbContainer = document.getElementById('game-fillblank');
+        const promptElem = document.getElementById('fillblank-prompt-text');
+        const eqDisplay = document.getElementById('fillblank-eq-display');
+        const inputElem = document.getElementById('fillblank-input');
 
-        if (title.includes('ចែក')) {
-            operation = '÷';
-            if (grade <= 3) {
-                num2 = Math.floor(Math.random() * 8) + 2;
-                currentCorrectAnswer = Math.floor(Math.random() * 9) + 1;
-                num1 = num2 * currentCorrectAnswer;
-            } else if (grade <= 6) {
-                num2 = Math.floor(Math.random() * 12) + 2;
-                currentCorrectAnswer = Math.floor(Math.random() * 20) + 5;
-                num1 = num2 * currentCorrectAnswer;
-            } else {
-                num2 = Math.floor(Math.random() * 20) + 3;
-                currentCorrectAnswer = Math.floor(Math.random() * 30) + 10;
-                num1 = num2 * currentCorrectAnswer;
+        if (fbContainer) fbContainer.classList.remove('hidden');
+        if (promptElem) promptElem.innerText = problem.prompt || 'ចូររកតម្លៃលេខដាក់ក្នុងសញ្ញា [ ❓ ]';
+        if (eqDisplay) {
+            eqDisplay.innerHTML = problem.equationDisplay.replace('❓', '<span class="fillblank-box-target">❓</span>');
+        }
+        quizState.fillBlankValue = '';
+        if (inputElem) {
+            inputElem.value = '';
+            inputElem.style.borderColor = 'var(--glass-border)';
+            inputElem.style.color = 'var(--text-main)';
+        }
+        startQuizTimer(problem.timerSecs || 40);
+
+    } else if (problem.type === 'matching') {
+        const matchContainer = document.getElementById('game-matching');
+        const instrElem = document.getElementById('matching-instruction-text');
+        const leftCol = document.getElementById('matching-left-col');
+        const rightCol = document.getElementById('matching-right-col');
+
+        if (matchContainer) matchContainer.classList.remove('hidden');
+        if (instrElem) instrElem.innerText = problem.prompt || 'ចុចជ្រើសសំណួរខាងឆ្វេង រួចចុចចម្លើយត្រូវខាងស្តាំ';
+
+        const shuffledLeft = QuestionEngine.shuffle(problem.pairs);
+        const shuffledRight = QuestionEngine.shuffle(problem.pairs);
+
+        if (leftCol) {
+            leftCol.innerHTML = '';
+            shuffledLeft.forEach(p => {
+                leftCol.innerHTML += `<button type="button" class="match-card" data-id="${p.id}" data-side="left" onclick="onMatchCardClick('left', ${p.id}, this)">${p.left}</button>`;
+            });
+        }
+        if (rightCol) {
+            rightCol.innerHTML = '';
+            shuffledRight.forEach(p => {
+                rightCol.innerHTML += `<button type="button" class="match-card" data-id="${p.id}" data-side="right" onclick="onMatchCardClick('right', ${p.id}, this)">${p.right}</button>`;
+            });
+        }
+
+        quizState.selectedMatchLeft = null;
+        quizState.matchedCount = 0;
+        quizState.totalPairsToMatch = problem.pairs.length;
+        startQuizTimer(problem.timerSecs || 50);
+
+    } else if (problem.type === 'ordering') {
+        const orderContainer = document.getElementById('game-ordering');
+        const promptElem = document.getElementById('ordering-prompt-text');
+        const slotsTray = document.getElementById('ordering-slots-tray');
+        const poolTray = document.getElementById('ordering-pool-tray');
+
+        if (orderContainer) orderContainer.classList.remove('hidden');
+        if (promptElem) promptElem.innerText = problem.prompt || 'ចូរចុចជ្រើសរើសលេខពី «តូច ទៅ ធំ» តាមលំដាប់លំដោយ៖';
+        if (slotsTray) slotsTray.innerHTML = '<span style="opacity:0.5; font-size:0.85rem;">(លេខដែលបានតម្រៀបរួច)</span>';
+        if (poolTray) {
+            poolTray.innerHTML = '';
+            problem.items.forEach(num => {
+                poolTray.innerHTML += `<button type="button" class="order-chip" data-val="${num}" onclick="onOrderChipClick(${num}, this)">${num}</button>`;
+            });
+        }
+
+        quizState.orderedSelected = [];
+        startQuizTimer(problem.timerSecs || 45);
+
+    } else {
+        // Multiple Choice (MCQ) and Word Problems
+        const wordCard = document.getElementById('game-word-problem');
+        const storyElem = document.getElementById('problem-story-text');
+        const questionElem = document.getElementById('problem-question-text');
+        const eqElem = document.getElementById('game-equation');
+        const optGrid = document.getElementById('game-options');
+
+        currentCorrectAnswer = problem.correctAnswer;
+        const unit = problem.unit ? ` ${problem.unit}` : '';
+
+        if (problem.isWordProblem) {
+            if (wordCard) {
+                wordCard.classList.remove('hidden');
+                if (storyElem) storyElem.innerText = problem.story;
+                if (questionElem) questionElem.innerText = problem.question;
             }
-        } else if (title.includes('គុណ')) {
-            operation = '×';
-            if (grade <= 2) {
-                num1 = Math.floor(Math.random() * 5) + 2;
-                num2 = Math.floor(Math.random() * 9) + 1;
-            } else if (grade <= 6) {
-                num1 = Math.floor(Math.random() * 12) + 3;
-                num2 = Math.floor(Math.random() * 12) + 2;
-            } else {
-                num1 = Math.floor(Math.random() * 20) + 5;
-                num2 = Math.floor(Math.random() * 15) + 3;
+            if (eqElem) {
+                eqElem.classList.remove('hidden');
+                eqElem.style.fontSize = '1.4rem';
+                eqElem.style.marginBottom = '1rem';
+                eqElem.innerHTML = `<span>${problem.equation}</span>`;
             }
-            currentCorrectAnswer = num1 * num2;
-        } else if (title.includes('ដក')) {
-            operation = '-';
-            if (grade === 1) {
-                num1 = Math.floor(Math.random() * 9) + 2;
-                num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
-            } else if (grade <= 3) {
-                num1 = Math.floor(Math.random() * 60) + 20;
-                num2 = Math.floor(Math.random() * (num1 - 10)) + 5;
-            } else {
-                num1 = Math.floor(Math.random() * 200) + 50;
-                num2 = Math.floor(Math.random() * (num1 - 30)) + 15;
-            }
-            currentCorrectAnswer = num1 - num2;
-        } else if (title.includes('បូក') || title.includes('ចំនួន')) {
-            operation = '+';
-            if (grade === 1) {
-                num1 = Math.floor(Math.random() * 9) + 1;
-                num2 = Math.floor(Math.random() * 9) + 1;
-            } else if (grade <= 3) {
-                num1 = Math.floor(Math.random() * 40) + 10;
-                num2 = Math.floor(Math.random() * 40) + 10;
-            } else {
-                num1 = Math.floor(Math.random() * 150) + 50;
-                num2 = Math.floor(Math.random() * 150) + 50;
-            }
-            currentCorrectAnswer = num1 + num2;
         } else {
-            // Default general arithmetic
-            const ops = grade <= 2 ? ['+', '-'] : ['+', '-', '×', '÷'];
-            operation = ops[Math.floor(Math.random() * ops.length)];
-            if (operation === '÷') {
-                num2 = Math.floor(Math.random() * 9) + 2;
-                currentCorrectAnswer = Math.floor(Math.random() * 10) + 2;
-                num1 = num2 * currentCorrectAnswer;
-            } else if (operation === '×') {
-                num1 = Math.floor(Math.random() * 10) + 2;
-                num2 = Math.floor(Math.random() * 9) + 2;
-                currentCorrectAnswer = num1 * num2;
-            } else if (operation === '-') {
-                num1 = Math.floor(Math.random() * 50) + 20;
-                num2 = Math.floor(Math.random() * 20) + 1;
-                currentCorrectAnswer = num1 - num2;
-            } else {
-                num1 = Math.floor(Math.random() * 30) + 5;
-                num2 = Math.floor(Math.random() * 30) + 5;
-                currentCorrectAnswer = num1 + num2;
+            if (wordCard) wordCard.classList.add('hidden');
+            if (eqElem) {
+                eqElem.classList.remove('hidden');
+                eqElem.style.fontSize = 'clamp(2rem, 5vw, 3rem)';
+                eqElem.style.marginBottom = '1.4rem';
+                eqElem.innerHTML = `<span>${problem.equation}</span>`;
             }
         }
 
-        if (eqElem) {
-            eqElem.innerHTML = `<span>${num1}</span> ${operation} <span>${num2}</span> = ?`;
-        }
+        if (optGrid) optGrid.classList.remove('hidden');
+
+        // Render options into buttons
+        const buttons = document.querySelectorAll('.game-option');
+        buttons.forEach((btn, index) => {
+            if (problem.options && problem.options[index] !== undefined) {
+                btn.dataset.val = problem.options[index];
+                btn.innerText = `${problem.options[index]}${unit}`;
+                btn.onclick = () => checkAnswer(problem.options[index]);
+                btn.style.background = 'var(--primary-color)';
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.disabled = false;
+                btn.style.fontSize = unit ? '1.3rem' : '1.8rem';
+            }
+        });
+
+        startQuizTimer(problem.timerSecs || (problem.isWordProblem ? 60 : 30));
     }
-
-    // Generate options
-    const options = [currentCorrectAnswer];
-    while (options.length < 4) {
-        const offset = Math.floor(Math.random() * 6) + 1;
-        const fakeAnswer = Math.random() > 0.5 ? currentCorrectAnswer + offset : currentCorrectAnswer - offset;
-        if (!options.includes(fakeAnswer) && (grade >= 7 || fakeAnswer >= 0)) {
-            options.push(fakeAnswer);
-        }
-    }
-
-    // Shuffle options
-    options.sort(() => Math.random() - 0.5);
-
-    // Render options
-    const buttons = document.querySelectorAll('.game-option');
-    buttons.forEach((btn, index) => {
-        btn.dataset.val = options[index];
-        btn.innerText = `${options[index]}${unit}`;
-        btn.onclick = () => checkAnswer(options[index]);
-        btn.style.background = 'var(--primary-color)';
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-        btn.disabled = false;
-        btn.style.fontSize = unit ? '1.5rem' : '2rem';
-    });
-
-    document.getElementById('feedback-msg').innerText = '';
 }
 
+// 1. True / False Handler
+function checkTrueFalseAnswer(userChoice) {
+    if (quizState.isProcessingAnswer) return;
+    quizState.isProcessingAnswer = true;
+    clearInterval(quizState.timerInterval);
+
+    quizState.totalAttempts++;
+    const prob = quizState.activeProblem;
+    const trueBtn = document.getElementById('tf-btn-true');
+    const falseBtn = document.getElementById('tf-btn-false');
+    const feedback = document.getElementById('feedback-msg');
+
+    if (trueBtn) trueBtn.disabled = true;
+    if (falseBtn) falseBtn.disabled = true;
+
+    const isCorrect = (userChoice === prob.correctAnswer);
+
+    if (isCorrect) {
+        quizState.firstTryCorrect++;
+        quizState.earnedXp += 10;
+        if (feedback) {
+            feedback.innerHTML = `🎉 <b>ត្រឹមត្រូវល្អណាស់!</b> ${prob.explanation ? '(' + prob.explanation + ')' : ''} (+10 XP)`;
+            feedback.className = 'feedback correct';
+        }
+        const chosenBtn = userChoice ? trueBtn : falseBtn;
+        if (chosenBtn) chosenBtn.style.transform = 'scale(1.05)';
+        setTimeout(() => advanceToNextQuestion(), 1300);
+    } else {
+        quizState.wrongAttempts++;
+        quizState.currentQuestionHasError = true;
+        if (feedback) {
+            feedback.innerHTML = `❌ <b>មិនត្រឹមត្រូវទេ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${prob.correctAnswer ? 'ត្រូវ (ពិត)' : 'ខុស (មិនពិត)'}</b> ${prob.explanation ? '<br><small>' + prob.explanation + '</small>' : ''} (+0 XP)`;
+            feedback.className = 'feedback wrong';
+        }
+        const wrongBtn = userChoice ? trueBtn : falseBtn;
+        const correctBtn = prob.correctAnswer ? trueBtn : falseBtn;
+        if (wrongBtn) wrongBtn.style.opacity = '0.35';
+        if (correctBtn) correctBtn.style.border = '4px solid #ffffff';
+        setTimeout(() => advanceToNextQuestion(), 2000);
+    }
+}
+
+// 2. Fill in the Blank Handler
+function pressFillKey(key) {
+    if (quizState.isProcessingAnswer) return;
+    const inputElem = document.getElementById('fillblank-input');
+    if (key === 'del') {
+        quizState.fillBlankValue = quizState.fillBlankValue.slice(0, -1);
+    } else {
+        if (quizState.fillBlankValue.length < 5) {
+            quizState.fillBlankValue += key;
+        }
+    }
+    if (inputElem) inputElem.value = quizState.fillBlankValue;
+}
+
+function submitFillBlank() {
+    if (quizState.isProcessingAnswer) return;
+    const prob = quizState.activeProblem;
+    const inputElem = document.getElementById('fillblank-input');
+    const feedback = document.getElementById('feedback-msg');
+
+    if (!quizState.fillBlankValue) {
+        if (feedback) {
+            feedback.innerHTML = '⚠️ សូមចុចលេខបំពេញប្រអប់ជាមុនសិន!';
+            feedback.className = 'feedback wrong';
+        }
+        return;
+    }
+
+    quizState.isProcessingAnswer = true;
+    clearInterval(quizState.timerInterval);
+    quizState.totalAttempts++;
+
+    const userVal = parseInt(quizState.fillBlankValue, 10);
+    const isCorrect = (userVal === prob.correctAnswer);
+
+    if (isCorrect) {
+        quizState.firstTryCorrect++;
+        quizState.earnedXp += 10;
+        if (inputElem) {
+            inputElem.style.borderColor = '#10b981';
+            inputElem.style.color = '#10b981';
+        }
+        if (feedback) {
+            feedback.innerHTML = `🎉 <b>ត្រឹមត្រូវល្អឥតខ្ចោះ!</b> តម្លៃចន្លោះគឺ ${prob.correctAnswer} (+10 XP)`;
+            feedback.className = 'feedback correct';
+        }
+        setTimeout(() => advanceToNextQuestion(), 1300);
+    } else {
+        quizState.wrongAttempts++;
+        quizState.currentQuestionHasError = true;
+        if (inputElem) {
+            inputElem.style.borderColor = '#ef4444';
+            inputElem.style.color = '#ef4444';
+        }
+        if (feedback) {
+            feedback.innerHTML = `❌ <b>មិនត្រឹមត្រូវទេ!</b> តម្លៃត្រឹមត្រូវគឺ <b>${prob.correctAnswer}</b> (+0 XP)`;
+            feedback.className = 'feedback wrong';
+        }
+        setTimeout(() => advanceToNextQuestion(), 1900);
+    }
+}
+
+// 3. Matching Pairs Handler
+function onMatchCardClick(side, id, el) {
+    if (quizState.isProcessingAnswer) return;
+    if (el.classList.contains('matched')) return;
+
+    const feedback = document.getElementById('feedback-msg');
+
+    if (side === 'left') {
+        const prevSelected = document.querySelector('.match-card.selected[data-side="left"]');
+        if (prevSelected) prevSelected.classList.remove('selected');
+
+        el.classList.add('selected');
+        quizState.selectedMatchLeft = { id, el };
+        if (feedback) feedback.innerText = '';
+    } else {
+        if (!quizState.selectedMatchLeft) {
+            if (feedback) {
+                feedback.innerHTML = '👆 សូមចុចជ្រើសសំណួរខាងឆ្វេងជាមុនសិន!';
+                feedback.className = 'feedback';
+            }
+            return;
+        }
+
+        const isMatch = (quizState.selectedMatchLeft.id === id);
+        const leftEl = quizState.selectedMatchLeft.el;
+
+        if (isMatch) {
+            leftEl.classList.remove('selected');
+            leftEl.classList.add('matched');
+            el.classList.add('matched');
+            leftEl.innerHTML += ' <i class="fa-solid fa-check"></i>';
+            el.innerHTML += ' <i class="fa-solid fa-check"></i>';
+
+            quizState.matchedCount++;
+            quizState.selectedMatchLeft = null;
+
+            if (quizState.matchedCount === quizState.totalPairsToMatch) {
+                clearInterval(quizState.timerInterval);
+                quizState.isProcessingAnswer = true;
+                if (!quizState.currentQuestionHasError) {
+                    quizState.firstTryCorrect++;
+                    quizState.earnedXp += 10;
+                }
+                if (feedback) {
+                    feedback.innerHTML = '🎉 <b>អស្ចារ្យណាស់! អ្នកបានផ្គូផ្គងត្រូវទាំងអស់</b> (+10 XP)';
+                    feedback.className = 'feedback correct';
+                }
+                setTimeout(() => advanceToNextQuestion(), 1400);
+            }
+        } else {
+            quizState.currentQuestionHasError = true;
+            leftEl.classList.add('wrong-match');
+            el.classList.add('wrong-match');
+            if (feedback) {
+                feedback.innerHTML = '❌ គូនេះមិនទាន់ត្រូវគ្នាទេ! សូមសាកល្បងម្តងទៀត។';
+                feedback.className = 'feedback wrong';
+            }
+            setTimeout(() => {
+                leftEl.classList.remove('wrong-match', 'selected');
+                el.classList.remove('wrong-match');
+                quizState.selectedMatchLeft = null;
+            }, 600);
+        }
+    }
+}
+
+// 4. Ordering / Sequencing Handler
+function onOrderChipClick(num, btnElem) {
+    if (quizState.isProcessingAnswer) return;
+    const prob = quizState.activeProblem;
+    const slotsTray = document.getElementById('ordering-slots-tray');
+    const feedback = document.getElementById('feedback-msg');
+
+    const nextIndex = quizState.orderedSelected.length;
+    const expected = prob.correctOrder[nextIndex];
+
+    if (num === expected) {
+        quizState.orderedSelected.push(num);
+        btnElem.style.visibility = 'hidden';
+        btnElem.disabled = true;
+
+        if (slotsTray) {
+            if (nextIndex === 0) slotsTray.innerHTML = '';
+            const chip = document.createElement('div');
+            chip.className = 'order-chip placed';
+            chip.innerText = num;
+            slotsTray.appendChild(chip);
+        }
+
+        if (quizState.orderedSelected.length === prob.correctOrder.length) {
+            clearInterval(quizState.timerInterval);
+            quizState.isProcessingAnswer = true;
+            if (!quizState.currentQuestionHasError) {
+                quizState.firstTryCorrect++;
+                quizState.earnedXp += 10;
+            }
+            if (feedback) {
+                feedback.innerHTML = '🎉 <b>ពូកែណាស់! អ្នកបានតម្រៀបត្រឹមត្រូវ</b> (+10 XP)';
+                feedback.className = 'feedback correct';
+            }
+            setTimeout(() => advanceToNextQuestion(), 1400);
+        }
+    } else {
+        quizState.currentQuestionHasError = true;
+        btnElem.classList.add('order-wrong');
+        if (feedback) {
+            feedback.innerHTML = '❌ មិនទាន់ត្រូវលំដាប់ទេ! សូមរកមើលលេខតូចជាងគេបន្ទាប់។';
+            feedback.className = 'feedback wrong';
+        }
+        setTimeout(() => {
+            btnElem.classList.remove('order-wrong');
+        }, 500);
+    }
+}
+
+// 5. Multiple Choice Handler
 function checkAnswer(selected) {
     if (quizState.isProcessingAnswer) return;
     quizState.isProcessingAnswer = true;
@@ -438,60 +734,74 @@ function checkAnswer(selected) {
     const feedback = document.getElementById('feedback-msg');
     const buttons = document.querySelectorAll('.game-option');
     
-    // Disable all buttons immediately so no extra clicks are allowed
+    // Disable all buttons immediately
     buttons.forEach(btn => btn.disabled = true);
 
     if (selected === currentCorrectAnswer) {
-        // Correct on first try!
         quizState.firstTryCorrect++;
         quizState.earnedXp += 10;
 
-        feedback.innerHTML = '🎉 <b>ត្រឹមត្រូវល្អណាស់!</b> (+10 XP)';
-        feedback.className = 'feedback correct';
+        if (feedback) {
+            feedback.innerHTML = '🎉 <b>ត្រឹមត្រូវល្អណាស់!</b> (+10 XP)';
+            feedback.className = 'feedback correct';
+        }
         
         buttons.forEach(btn => {
             if (parseInt(btn.dataset.val) === currentCorrectAnswer) {
-                btn.style.background = '#10b981'; // green
+                btn.style.background = '#10b981';
             }
         });
 
-        setTimeout(() => {
-            if (quizState.currentQuestion < quizState.totalQuestions) {
-                quizState.currentQuestion++;
-                updateQuizProgress();
-                generateMathProblem();
-            } else {
-                showLessonVictory();
-            }
-        }, 1200);
+        setTimeout(() => advanceToNextQuestion(), 1200);
     } else {
-        // Wrong answer: mark as wrong, reveal correct answer, give 0 XP, then advance!
         quizState.wrongAttempts++;
         quizState.currentQuestionHasError = true;
 
-        feedback.innerHTML = `❌ <b>មិនត្រឹមត្រូវទេ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
-        feedback.className = 'feedback wrong';
+        if (feedback) {
+            feedback.innerHTML = `❌ <b>មិនត្រឹមត្រូវទេ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
+            feedback.className = 'feedback wrong';
+        }
         
         buttons.forEach(btn => {
             const val = parseInt(btn.dataset.val);
             if (val === selected) {
-                btn.style.background = '#ef4444'; // Red for user's wrong choice
+                btn.style.background = '#ef4444';
             } else if (val === currentCorrectAnswer) {
-                btn.style.background = '#10b981'; // Green to reveal the correct answer!
+                btn.style.background = '#10b981';
             }
         });
 
-        setTimeout(() => {
-            if (quizState.currentQuestion < quizState.totalQuestions) {
-                quizState.currentQuestion++;
-                updateQuizProgress();
-                generateMathProblem();
-            } else {
-                showLessonVictory();
-            }
-        }, 1800);
+        setTimeout(() => advanceToNextQuestion(), 1800);
     }
 }
+
+// Step advancement
+function advanceToNextQuestion() {
+    if (quizState.currentQuestion < quizState.totalQuestions) {
+        quizState.currentQuestion++;
+        updateQuizProgress();
+        generateMathProblem();
+    } else {
+        showLessonVictory();
+    }
+}
+
+// Global Keyboard Listener for Fill-in-Blank
+window.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('math-game-overlay');
+    if (overlay && !overlay.classList.contains('hidden')) {
+        const prob = quizState.activeProblem;
+        if (prob && prob.type === 'fill_blank') {
+            if (e.key >= '0' && e.key <= '9') {
+                pressFillKey(e.key);
+            } else if (e.key === 'Backspace') {
+                pressFillKey('del');
+            } else if (e.key === 'Enter') {
+                submitFillBlank();
+            }
+        }
+    }
+});
 
 function showLessonVictory() {
     clearInterval(quizState.timerInterval);
