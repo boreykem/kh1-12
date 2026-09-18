@@ -264,89 +264,122 @@ function generateMathProblem() {
     const grade = parseInt(document.getElementById('grade-select').value) || 1;
     const title = currentLessonTitle || '';
     
-    // Adapt operation based on lesson topic
-    let num1 = 10, num2 = 5, operation = '+';
+    const wordCard = document.getElementById('game-word-problem');
+    const storyElem = document.getElementById('problem-story-text');
+    const questionElem = document.getElementById('problem-question-text');
+    const eqElem = document.getElementById('game-equation');
 
-    if (title.includes('ចែក')) {
-        operation = '÷';
-        if (grade <= 3) {
-            num2 = Math.floor(Math.random() * 8) + 2;
-            currentCorrectAnswer = Math.floor(Math.random() * 9) + 1;
-            num1 = num2 * currentCorrectAnswer;
-        } else if (grade <= 6) {
-            num2 = Math.floor(Math.random() * 12) + 2;
-            currentCorrectAnswer = Math.floor(Math.random() * 20) + 5;
-            num1 = num2 * currentCorrectAnswer;
-        } else {
-            num2 = Math.floor(Math.random() * 20) + 3;
-            currentCorrectAnswer = Math.floor(Math.random() * 30) + 10;
-            num1 = num2 * currentCorrectAnswer;
-        }
-    } else if (title.includes('គុណ')) {
-        operation = '×';
-        if (grade <= 2) {
-            num1 = Math.floor(Math.random() * 5) + 2;
-            num2 = Math.floor(Math.random() * 9) + 1;
-        } else if (grade <= 6) {
-            num1 = Math.floor(Math.random() * 12) + 3;
-            num2 = Math.floor(Math.random() * 12) + 2;
-        } else {
-            num1 = Math.floor(Math.random() * 20) + 5;
-            num2 = Math.floor(Math.random() * 15) + 3;
-        }
-        currentCorrectAnswer = num1 * num2;
-    } else if (title.includes('ដក')) {
-        operation = '-';
-        if (grade === 1) {
-            num1 = Math.floor(Math.random() * 9) + 2;
-            num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
-        } else if (grade <= 3) {
-            num1 = Math.floor(Math.random() * 60) + 20;
-            num2 = Math.floor(Math.random() * (num1 - 10)) + 5;
-        } else {
-            num1 = Math.floor(Math.random() * 200) + 50;
-            num2 = Math.floor(Math.random() * (num1 - 30)) + 15;
-        }
-        currentCorrectAnswer = num1 - num2;
-    } else if (title.includes('បូក') || title.includes('ចំនួន')) {
-        operation = '+';
-        if (grade === 1) {
-            num1 = Math.floor(Math.random() * 9) + 1;
-            num2 = Math.floor(Math.random() * 9) + 1;
-        } else if (grade <= 3) {
-            num1 = Math.floor(Math.random() * 40) + 10;
-            num2 = Math.floor(Math.random() * 40) + 10;
-        } else {
-            num1 = Math.floor(Math.random() * 150) + 50;
-            num2 = Math.floor(Math.random() * 150) + 50;
-        }
-        currentCorrectAnswer = num1 + num2;
-    } else {
-        // Default general arithmetic
-        const ops = grade <= 2 ? ['+', '-'] : ['+', '-', '×', '÷'];
-        operation = ops[Math.floor(Math.random() * ops.length)];
-        if (operation === '÷') {
-            num2 = Math.floor(Math.random() * 9) + 2;
-            currentCorrectAnswer = Math.floor(Math.random() * 10) + 2;
-            num1 = num2 * currentCorrectAnswer;
-        } else if (operation === '×') {
-            num1 = Math.floor(Math.random() * 10) + 2;
-            num2 = Math.floor(Math.random() * 9) + 2;
-            currentCorrectAnswer = num1 * num2;
-        } else if (operation === '-') {
-            num1 = Math.floor(Math.random() * 50) + 20;
-            num2 = Math.floor(Math.random() * 20) + 1;
-            currentCorrectAnswer = num1 - num2;
-        } else {
-            num1 = Math.floor(Math.random() * 30) + 5;
-            num2 = Math.floor(Math.random() * 30) + 5;
-            currentCorrectAnswer = num1 + num2;
-        }
+    // Alternate word problem and numerical equation:
+    // Questions 1, 3, 5 are Word Problems (ចំណោទ)
+    let wp = null;
+    if (typeof generateWordProblem === 'function' && (quizState.currentQuestion % 2 !== 0 || Math.random() < 0.6)) {
+        wp = generateWordProblem(grade, title);
     }
 
-    const eqElem = document.getElementById('game-equation');
-    if (eqElem) {
-        eqElem.innerHTML = `<span>${num1}</span> ${operation} <span>${num2}</span> = ?`;
+    let unit = '';
+    if (wp) {
+        if (wordCard) {
+            wordCard.classList.remove('hidden');
+            if (storyElem) storyElem.innerText = wp.story;
+            if (questionElem) questionElem.innerText = wp.question;
+        }
+        if (eqElem) {
+            eqElem.style.fontSize = '1.6rem';
+            eqElem.style.marginBottom = '1.2rem';
+            eqElem.innerHTML = `<span>រូបមន្ត៖ ${wp.equation}</span>`;
+        }
+        currentCorrectAnswer = wp.correctAnswer;
+        unit = wp.unit ? ` ${wp.unit}` : '';
+    } else {
+        if (wordCard) wordCard.classList.add('hidden');
+        if (eqElem) {
+            eqElem.style.fontSize = '3.5rem';
+            eqElem.style.marginBottom = '1.5rem';
+        }
+
+        // Adapt operation based on lesson topic
+        let num1 = 10, num2 = 5, operation = '+';
+
+        if (title.includes('ចែក')) {
+            operation = '÷';
+            if (grade <= 3) {
+                num2 = Math.floor(Math.random() * 8) + 2;
+                currentCorrectAnswer = Math.floor(Math.random() * 9) + 1;
+                num1 = num2 * currentCorrectAnswer;
+            } else if (grade <= 6) {
+                num2 = Math.floor(Math.random() * 12) + 2;
+                currentCorrectAnswer = Math.floor(Math.random() * 20) + 5;
+                num1 = num2 * currentCorrectAnswer;
+            } else {
+                num2 = Math.floor(Math.random() * 20) + 3;
+                currentCorrectAnswer = Math.floor(Math.random() * 30) + 10;
+                num1 = num2 * currentCorrectAnswer;
+            }
+        } else if (title.includes('គុណ')) {
+            operation = '×';
+            if (grade <= 2) {
+                num1 = Math.floor(Math.random() * 5) + 2;
+                num2 = Math.floor(Math.random() * 9) + 1;
+            } else if (grade <= 6) {
+                num1 = Math.floor(Math.random() * 12) + 3;
+                num2 = Math.floor(Math.random() * 12) + 2;
+            } else {
+                num1 = Math.floor(Math.random() * 20) + 5;
+                num2 = Math.floor(Math.random() * 15) + 3;
+            }
+            currentCorrectAnswer = num1 * num2;
+        } else if (title.includes('ដក')) {
+            operation = '-';
+            if (grade === 1) {
+                num1 = Math.floor(Math.random() * 9) + 2;
+                num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
+            } else if (grade <= 3) {
+                num1 = Math.floor(Math.random() * 60) + 20;
+                num2 = Math.floor(Math.random() * (num1 - 10)) + 5;
+            } else {
+                num1 = Math.floor(Math.random() * 200) + 50;
+                num2 = Math.floor(Math.random() * (num1 - 30)) + 15;
+            }
+            currentCorrectAnswer = num1 - num2;
+        } else if (title.includes('បូក') || title.includes('ចំនួន')) {
+            operation = '+';
+            if (grade === 1) {
+                num1 = Math.floor(Math.random() * 9) + 1;
+                num2 = Math.floor(Math.random() * 9) + 1;
+            } else if (grade <= 3) {
+                num1 = Math.floor(Math.random() * 40) + 10;
+                num2 = Math.floor(Math.random() * 40) + 10;
+            } else {
+                num1 = Math.floor(Math.random() * 150) + 50;
+                num2 = Math.floor(Math.random() * 150) + 50;
+            }
+            currentCorrectAnswer = num1 + num2;
+        } else {
+            // Default general arithmetic
+            const ops = grade <= 2 ? ['+', '-'] : ['+', '-', '×', '÷'];
+            operation = ops[Math.floor(Math.random() * ops.length)];
+            if (operation === '÷') {
+                num2 = Math.floor(Math.random() * 9) + 2;
+                currentCorrectAnswer = Math.floor(Math.random() * 10) + 2;
+                num1 = num2 * currentCorrectAnswer;
+            } else if (operation === '×') {
+                num1 = Math.floor(Math.random() * 10) + 2;
+                num2 = Math.floor(Math.random() * 9) + 2;
+                currentCorrectAnswer = num1 * num2;
+            } else if (operation === '-') {
+                num1 = Math.floor(Math.random() * 50) + 20;
+                num2 = Math.floor(Math.random() * 20) + 1;
+                currentCorrectAnswer = num1 - num2;
+            } else {
+                num1 = Math.floor(Math.random() * 30) + 5;
+                num2 = Math.floor(Math.random() * 30) + 5;
+                currentCorrectAnswer = num1 + num2;
+            }
+        }
+
+        if (eqElem) {
+            eqElem.innerHTML = `<span>${num1}</span> ${operation} <span>${num2}</span> = ?`;
+        }
     }
 
     // Generate options
@@ -365,12 +398,14 @@ function generateMathProblem() {
     // Render options
     const buttons = document.querySelectorAll('.game-option');
     buttons.forEach((btn, index) => {
-        btn.innerText = options[index];
+        btn.dataset.val = options[index];
+        btn.innerText = `${options[index]}${unit}`;
         btn.onclick = () => checkAnswer(options[index]);
         btn.style.background = 'var(--primary-color)';
         btn.style.opacity = '1';
         btn.style.cursor = 'pointer';
         btn.disabled = false;
+        btn.style.fontSize = unit ? '1.5rem' : '2rem';
     });
 
     document.getElementById('feedback-msg').innerText = '';
@@ -397,7 +432,7 @@ function checkAnswer(selected) {
         feedback.className = 'feedback correct';
         
         buttons.forEach(btn => {
-            if (parseInt(btn.innerText) === currentCorrectAnswer) {
+            if (parseInt(btn.dataset.val) === currentCorrectAnswer) {
                 btn.style.background = '#10b981'; // green
             }
         });
@@ -421,7 +456,7 @@ function checkAnswer(selected) {
         feedback.className = 'feedback wrong';
         
         buttons.forEach(btn => {
-            const val = parseInt(btn.innerText);
+            const val = parseInt(btn.dataset.val);
             if (val === selected) {
                 btn.style.background = '#ef4444'; // Red for user's wrong choice
             } else if (val === currentCorrectAnswer) {
