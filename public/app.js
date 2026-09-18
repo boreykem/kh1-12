@@ -104,6 +104,12 @@ let currentLessonTitle = '';
 let quizState = {
     currentQuestion: 1,
     totalQuestions: 5,
+    firstTryCorrect: 0,
+    wrongAttempts: 0,
+    totalAttempts: 0,
+    currentQuestionHasError: false,
+    earnedXp: 0,
+    isProcessingAnswer: false,
     timer: 30,
     timerInterval: null
 };
@@ -170,6 +176,12 @@ function openMathGame(lessonId, lessonTitle, lessonIndex) {
     
     quizState.currentQuestion = 1;
     quizState.totalQuestions = 5;
+    quizState.firstTryCorrect = 0;
+    quizState.wrongAttempts = 0;
+    quizState.totalAttempts = 0;
+    quizState.currentQuestionHasError = false;
+    quizState.earnedXp = 0;
+    quizState.isProcessingAnswer = false;
 
     // Switch views: show active quiz, hide victory screen
     document.getElementById('quiz-active-view').classList.remove('hidden');
@@ -208,6 +220,9 @@ function startQuizTimer() {
                 feedback.innerText = '⏰ អស់ពេលហើយ! សាកល្បងសំណួរថ្មី';
                 feedback.className = 'feedback wrong';
             }
+            quizState.wrongAttempts++;
+            quizState.currentQuestionHasError = true;
+
             setTimeout(() => {
                 startQuizTimer();
                 generateMathProblem();
@@ -226,6 +241,9 @@ function updateQuizProgress() {
 }
 
 function generateMathProblem() {
+    quizState.currentQuestionHasError = false;
+    quizState.isProcessingAnswer = false;
+
     const grade = parseInt(document.getElementById('grade-select').value) || 1;
     
     // Adapt numbers based on Grade
@@ -285,7 +303,7 @@ function generateMathProblem() {
     while (options.length < 4) {
         const offset = Math.floor(Math.random() * 6) + 1;
         const fakeAnswer = Math.random() > 0.5 ? currentCorrectAnswer + offset : currentCorrectAnswer - offset;
-        if (!options.includes(fakeAnswer)) {
+        if (!options.includes(fakeAnswer) && (grade >= 7 || fakeAnswer >= 0)) {
             options.push(fakeAnswer);
         }
     }
@@ -297,18 +315,35 @@ function generateMathProblem() {
     const buttons = document.querySelectorAll('.game-option');
     buttons.forEach((btn, index) => {
         btn.innerText = options[index];
-        btn.setAttribute('onclick', `checkAnswer(${options[index]})`);
+        btn.onclick = () => checkAnswer(options[index]);
         btn.style.background = 'var(--primary-color)';
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+        btn.disabled = false;
     });
 
     document.getElementById('feedback-msg').innerText = '';
 }
 
 function checkAnswer(selected) {
+    if (quizState.isProcessingAnswer) return;
+
+    quizState.totalAttempts++;
     const feedback = document.getElementById('feedback-msg');
     const buttons = document.querySelectorAll('.game-option');
     
     if (selected === currentCorrectAnswer) {
+        quizState.isProcessingAnswer = true;
+        clearInterval(quizState.timerInterval);
+
+        // Accurate first-try scoring
+        if (!quizState.currentQuestionHasError) {
+            quizState.firstTryCorrect++;
+            quizState.earnedXp += 10;
+        } else {
+            quizState.earnedXp += 5; // Partial credit
+        }
+
         feedback.innerText = 'Correct! 🎉 ត្រឹមត្រូវល្អណាស់!';
         feedback.className = 'feedback correct';
         
@@ -316,18 +351,7 @@ function checkAnswer(selected) {
             if (parseInt(btn.innerText) === currentCorrectAnswer) {
                 btn.style.background = '#10b981'; // green
             }
-        });
-        
-        // Save XP to server
-        fetch('/api/progress/xp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ xpEarned: 10 })
-        }).then(res => res.json()).then(data => {
-            if (data.success) {
-                const xpPill = document.querySelector('.pill:nth-child(1)');
-                if (xpPill) xpPill.innerHTML = `<i class="fa-solid fa-star text-yellow"></i> ${data.newTotalXp} XP`;
-            }
+            btn.disabled = true;
         });
 
         setTimeout(() => {
@@ -342,12 +366,17 @@ function checkAnswer(selected) {
             }
         }, 1200);
     } else {
+        quizState.wrongAttempts++;
+        quizState.currentQuestionHasError = true;
+
         feedback.innerText = 'Try again! មិនទាន់ត្រឹមត្រូវទេ ព្យាយាមម្តងទៀត';
         feedback.className = 'feedback wrong';
         
         buttons.forEach(btn => {
             if (parseInt(btn.innerText) === selected) {
                 btn.style.background = '#ef4444'; // red
+                btn.style.opacity = '0.5';
+                btn.disabled = true;
             }
         });
     }
@@ -363,12 +392,81 @@ function showLessonVictory() {
         victorySubtitle.innerText = `អ្នកបានបញ្ចប់ «${currentLessonTitle}» ដោយជោគជ័យ!`;
     }
 
-    // Unlock next node in current grade curriculum
-    if (currentCurriculumDB && currentCurriculumDB[currentActiveGradeKey] && currentCurriculumDB[currentActiveGradeKey][currentActiveSubject]) {
-        const lessons = currentCurriculumDB[currentActiveGradeKey][currentActiveSubject];
-        const nextIndex = currentActiveLessonIndex + 1;
-        if (nextIndex < lessons.length) {
-            lessons[nextIndex].locked = false;
+    // Dynamic Accuracy Calculation: (Correct on 1st attempt / Total Questions) * 100
+    const accuracy = Math.round((quizState.firstTryCorrect / quizState.totalQuestions) * 100);
+
+    const accuracyElem = document.getElementById('victory-accuracy');
+    const accIcon = document.getElementById('victory-acc-icon');
+    if (accuracyElem) {
+        accuracyElem.innerText = `${accuracy}%`;
+    }
+    if (accIcon) {
+        if (accuracy >= 80) {
+            accIcon.style.color = '#10b981'; // Green
+        } else if (accuracy >= 60) {
+            accIcon.style.color = '#f59e0b'; // Amber
+        } else {
+            accIcon.style.color = '#ef4444'; // Red
+        }
+    }
+
+    // Dynamic XP (bonus +10 if 100% accuracy)
+    let totalXp = quizState.earnedXp;
+    if (accuracy === 100) {
+        totalXp += 10;
+    }
+
+    const xpElem = document.getElementById('victory-xp');
+    if (xpElem) {
+        xpElem.innerText = `+${totalXp} XP`;
+    }
+
+    // Save XP to server
+    fetch('/api/progress/xp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ xpEarned: totalXp })
+    }).then(res => res.json()).then(data => {
+        if (data.success) {
+            const xpPill = document.querySelector('.pill:nth-child(1)');
+            if (xpPill) xpPill.innerHTML = `<i class="fa-solid fa-star text-yellow"></i> ${data.newTotalXp} XP`;
+        }
+    }).catch(err => console.error('XP update error:', err));
+
+    // Threshold check (>= 60% passes and unlocks next lesson)
+    const statusVal = document.getElementById('victory-status');
+    const statusLbl = document.getElementById('victory-status-lbl');
+    const statusIcon = document.getElementById('victory-status-icon');
+    const victoryTitle = document.querySelector('.victory-title');
+
+    if (accuracy >= 60) {
+        if (statusVal) statusVal.innerText = 'បានដោះសោរ';
+        if (statusLbl) statusLbl.innerText = 'មេរៀនបន្ទាប់';
+        if (statusIcon) {
+            statusIcon.className = 'fa-solid fa-lock-open';
+            statusIcon.style.color = '#3b82f6';
+        }
+        if (victoryTitle) {
+            victoryTitle.innerText = accuracy === 100 ? '🎉 ពូកែឥតខ្ចោះ (100%)!' : '🎉 អស្ចារ្យណាស់!';
+        }
+
+        // Unlock next node in current grade curriculum
+        if (currentCurriculumDB && currentCurriculumDB[currentActiveGradeKey] && currentCurriculumDB[currentActiveGradeKey][currentActiveSubject]) {
+            const lessons = currentCurriculumDB[currentActiveGradeKey][currentActiveSubject];
+            const nextIndex = currentActiveLessonIndex + 1;
+            if (nextIndex < lessons.length) {
+                lessons[nextIndex].locked = false;
+            }
+        }
+    } else {
+        if (statusVal) statusVal.innerText = 'គួររៀនឡើងវិញ';
+        if (statusLbl) statusLbl.innerText = 'ពិន្ទុមិនទាន់គ្រប់គ្រាន់';
+        if (statusIcon) {
+            statusIcon.className = 'fa-solid fa-rotate-right';
+            statusIcon.style.color = '#f59e0b';
+        }
+        if (victoryTitle) {
+            victoryTitle.innerText = '💪 ព្យាយាមម្តងទៀត!';
         }
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klemtech - Math & Science Learning</title>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -141,18 +141,18 @@
                 <div class="victory-stats">
                     <div class="vstat-card">
                         <i class="fa-solid fa-star text-yellow"></i>
-                        <span class="vstat-val">+50 XP</span>
-                        <span class="vstat-lbl">ពិន្ទុបន្ថែម</span>
+                        <span class="vstat-val" id="victory-xp">+50 XP</span>
+                        <span class="vstat-lbl">ពិន្ទុទទួលបាន</span>
                     </div>
                     <div class="vstat-card">
-                        <i class="fa-solid fa-bullseye" style="color: #10b981;"></i>
-                        <span class="vstat-val">100%</span>
+                        <i class="fa-solid fa-bullseye" id="victory-acc-icon" style="color: #10b981;"></i>
+                        <span class="vstat-val" id="victory-accuracy">100%</span>
                         <span class="vstat-lbl">ភាពត្រឹមត្រូវ</span>
                     </div>
                     <div class="vstat-card">
-                        <i class="fa-solid fa-lock-open" style="color: #3b82f6;"></i>
-                        <span class="vstat-val">បានដោះសោរ</span>
-                        <span class="vstat-lbl">មេរៀនបន្ទាប់</span>
+                        <i class="fa-solid fa-lock-open" id="victory-status-icon" style="color: #3b82f6;"></i>
+                        <span class="vstat-val" id="victory-status">បានដោះសោរ</span>
+                        <span class="vstat-lbl" id="victory-status-lbl">មេរៀនបន្ទាប់</span>
                     </div>
                 </div>
 
@@ -240,6 +240,6 @@
         </main>
     </div>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>
