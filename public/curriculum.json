@@ -1,12 +1,21 @@
 {
     "grade_1": {
         "math": [
-            { "id": "g1_u1", "title": "មេរៀនទី១៖ ចំនួន ១ ដល់ ៥", "icon": "fa-1", "color": "#ef4444", "locked": false, "gameId": "math_basic" },
-            { "id": "g1_u2", "title": "មេរៀនទី២៖ ការបូកក្នុងរង្វង់ ៥", "icon": "fa-plus", "color": "#f59e0b", "locked": true, "gameId": "math_basic" },
-            { "id": "g1_u3", "title": "មេរៀនទី៣៖ ការដកក្នុងរង្វង់ ៥", "icon": "fa-minus", "color": "#10b981", "locked": true, "gameId": "math_basic" },
-            { "id": "g1_u4", "title": "មេរៀនទី៤៖ ចំនួន ៦ ដល់ ១០", "icon": "fa-list-ol", "color": "#3b82f6", "locked": true, "gameId": "math_basic" },
-            { "id": "g1_u5", "title": "មេរៀនទី៥៖ រូបធរណីមាត្រ (Shape)", "icon": "fa-shapes", "color": "#8b5cf6", "locked": true, "gameId": "math_geometry" },
-            { "id": "g1_u6", "title": "មេរៀនទី៦៖ ការវាស់វែង (ប្រវែង)", "icon": "fa-ruler", "color": "#ec4899", "locked": true, "gameId": "math_measurement" }
+            { "id": "g1_u1", "title": "មេរៀនទី១៖ ចំណាត់ថ្នាក់ក្រុម", "icon": "fa-object-group", "color": "#ef4444", "locked": false, "gameId": "math_basic" },
+            { "id": "g1_u2", "title": "មេរៀនទី២៖ ចំនួន ១ ដល់ ៥", "icon": "fa-1", "color": "#f59e0b", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u3", "title": "មេរៀនទី៣៖ ចំនួន ០", "icon": "fa-0", "color": "#10b981", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u4", "title": "មេរៀនទី៤៖ ការបូកក្នុងរង្វង់ ៥", "icon": "fa-plus", "color": "#3b82f6", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u5", "title": "មេរៀនទី៥៖ ការដកក្នុងរង្វង់ ៥", "icon": "fa-minus", "color": "#8b5cf6", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u6", "title": "មេរៀនទី៦៖ ចំនួន ៦ ដល់ ១០", "icon": "fa-list-ol", "color": "#ec4899", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u7", "title": "មេរៀនទី៧៖ ការបូកក្នុងរង្វង់ ១០", "icon": "fa-plus", "color": "#ef4444", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u8", "title": "មេរៀនទី៨៖ ការដកក្នុងរង្វង់ ១០", "icon": "fa-minus", "color": "#f59e0b", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u9", "title": "មេរៀនទី៩៖ រូបធរណីមាត្រ (Shape)", "icon": "fa-shapes", "color": "#10b981", "locked": true, "gameId": "math_geometry" },
+            { "id": "g1_u10", "title": "មេរៀនទី១០៖ ចំនួន ១១ ដល់ ២០", "icon": "fa-hashtag", "color": "#3b82f6", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u11", "title": "មេរៀនទី១១៖ បូកដកក្នុងរង្វង់ ២០", "icon": "fa-plus-minus", "color": "#8b5cf6", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u12", "title": "មេរៀនទី១២៖ ចំនួន ២១ ដល់ ១០០", "icon": "fa-arrow-up-9-1", "color": "#ec4899", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u13", "title": "មេរៀនទី១៣៖ បូកដកក្នុងរង្វង់ ១០០", "icon": "fa-calculator", "color": "#ef4444", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u14", "title": "មេរៀនទី១៤៖ ការវាស់វែង (ប្រវែង)", "icon": "fa-ruler", "color": "#f59e0b", "locked": true, "gameId": "math_measurement" },
+            { "id": "g1_u15", "title": "មេរៀនទី១៥៖ ពេលវេលា (ម៉ោង)", "icon": "fa-clock", "color": "#10b981", "locked": true, "gameId": "math_time" }
         ]
     },
     "grade_7": {
