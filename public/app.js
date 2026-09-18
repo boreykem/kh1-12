@@ -215,18 +215,35 @@ function startQuizTimer() {
 
         if (quizState.timer <= 0) {
             clearInterval(quizState.timerInterval);
+            if (quizState.isProcessingAnswer) return;
+            quizState.isProcessingAnswer = true;
+            quizState.wrongAttempts++;
+
             const feedback = document.getElementById('feedback-msg');
             if (feedback) {
-                feedback.innerText = '⏰ អស់ពេលហើយ! សាកល្បងសំណួរថ្មី';
+                feedback.innerHTML = `⏰ <b>អស់ពេលហើយ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
                 feedback.className = 'feedback wrong';
             }
-            quizState.wrongAttempts++;
-            quizState.currentQuestionHasError = true;
+
+            // Reveal correct answer and disable buttons
+            const buttons = document.querySelectorAll('.game-option');
+            buttons.forEach(btn => {
+                if (parseInt(btn.innerText) === currentCorrectAnswer) {
+                    btn.style.background = '#10b981'; // highlight correct
+                }
+                btn.disabled = true;
+            });
 
             setTimeout(() => {
-                startQuizTimer();
-                generateMathProblem();
-            }, 1500);
+                if (quizState.currentQuestion < quizState.totalQuestions) {
+                    quizState.currentQuestion++;
+                    updateQuizProgress();
+                    startQuizTimer();
+                    generateMathProblem();
+                } else {
+                    showLessonVictory();
+                }
+            }, 1800);
         }
     }, 1000);
 }
@@ -245,52 +262,86 @@ function generateMathProblem() {
     quizState.isProcessingAnswer = false;
 
     const grade = parseInt(document.getElementById('grade-select').value) || 1;
+    const title = currentLessonTitle || '';
     
-    // Adapt numbers based on Grade
-    let num1, num2, operation = '+';
-    if (grade === 1) {
-        num1 = Math.floor(Math.random() * 10) + 1;
-        num2 = Math.floor(Math.random() * 10) + 1;
+    // Adapt operation based on lesson topic
+    let num1 = 10, num2 = 5, operation = '+';
+
+    if (title.includes('ចែក')) {
+        operation = '÷';
+        if (grade <= 3) {
+            num2 = Math.floor(Math.random() * 8) + 2;
+            currentCorrectAnswer = Math.floor(Math.random() * 9) + 1;
+            num1 = num2 * currentCorrectAnswer;
+        } else if (grade <= 6) {
+            num2 = Math.floor(Math.random() * 12) + 2;
+            currentCorrectAnswer = Math.floor(Math.random() * 20) + 5;
+            num1 = num2 * currentCorrectAnswer;
+        } else {
+            num2 = Math.floor(Math.random() * 20) + 3;
+            currentCorrectAnswer = Math.floor(Math.random() * 30) + 10;
+            num1 = num2 * currentCorrectAnswer;
+        }
+    } else if (title.includes('គុណ')) {
+        operation = '×';
+        if (grade <= 2) {
+            num1 = Math.floor(Math.random() * 5) + 2;
+            num2 = Math.floor(Math.random() * 9) + 1;
+        } else if (grade <= 6) {
+            num1 = Math.floor(Math.random() * 12) + 3;
+            num2 = Math.floor(Math.random() * 12) + 2;
+        } else {
+            num1 = Math.floor(Math.random() * 20) + 5;
+            num2 = Math.floor(Math.random() * 15) + 3;
+        }
+        currentCorrectAnswer = num1 * num2;
+    } else if (title.includes('ដក')) {
+        operation = '-';
+        if (grade === 1) {
+            num1 = Math.floor(Math.random() * 9) + 2;
+            num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
+        } else if (grade <= 3) {
+            num1 = Math.floor(Math.random() * 60) + 20;
+            num2 = Math.floor(Math.random() * (num1 - 10)) + 5;
+        } else {
+            num1 = Math.floor(Math.random() * 200) + 50;
+            num2 = Math.floor(Math.random() * (num1 - 30)) + 15;
+        }
+        currentCorrectAnswer = num1 - num2;
+    } else if (title.includes('បូក') || title.includes('ចំនួន')) {
+        operation = '+';
+        if (grade === 1) {
+            num1 = Math.floor(Math.random() * 9) + 1;
+            num2 = Math.floor(Math.random() * 9) + 1;
+        } else if (grade <= 3) {
+            num1 = Math.floor(Math.random() * 40) + 10;
+            num2 = Math.floor(Math.random() * 40) + 10;
+        } else {
+            num1 = Math.floor(Math.random() * 150) + 50;
+            num2 = Math.floor(Math.random() * 150) + 50;
+        }
         currentCorrectAnswer = num1 + num2;
-    } else if (grade <= 3) {
-        const ops = ['+', '-', '×'];
+    } else {
+        // Default general arithmetic
+        const ops = grade <= 2 ? ['+', '-'] : ['+', '-', '×', '÷'];
         operation = ops[Math.floor(Math.random() * ops.length)];
-        if (operation === '+') {
-            num1 = Math.floor(Math.random() * 50) + 10;
-            num2 = Math.floor(Math.random() * 50) + 10;
-            currentCorrectAnswer = num1 + num2;
+        if (operation === '÷') {
+            num2 = Math.floor(Math.random() * 9) + 2;
+            currentCorrectAnswer = Math.floor(Math.random() * 10) + 2;
+            num1 = num2 * currentCorrectAnswer;
+        } else if (operation === '×') {
+            num1 = Math.floor(Math.random() * 10) + 2;
+            num2 = Math.floor(Math.random() * 9) + 2;
+            currentCorrectAnswer = num1 * num2;
         } else if (operation === '-') {
             num1 = Math.floor(Math.random() * 50) + 20;
             num2 = Math.floor(Math.random() * 20) + 1;
             currentCorrectAnswer = num1 - num2;
         } else {
-            num1 = Math.floor(Math.random() * 9) + 2;
-            num2 = Math.floor(Math.random() * 9) + 2;
-            currentCorrectAnswer = num1 * num2;
+            num1 = Math.floor(Math.random() * 30) + 5;
+            num2 = Math.floor(Math.random() * 30) + 5;
+            currentCorrectAnswer = num1 + num2;
         }
-    } else if (grade <= 6) {
-        const ops = ['+', '-', '×', '÷'];
-        operation = ops[Math.floor(Math.random() * ops.length)];
-        if (operation === '÷') {
-            num2 = Math.floor(Math.random() * 9) + 2;
-            currentCorrectAnswer = Math.floor(Math.random() * 12) + 2;
-            num1 = num2 * currentCorrectAnswer;
-        } else if (operation === '×') {
-            num1 = Math.floor(Math.random() * 15) + 3;
-            num2 = Math.floor(Math.random() * 12) + 2;
-            currentCorrectAnswer = num1 * num2;
-        } else {
-            num1 = Math.floor(Math.random() * 200) + 50;
-            num2 = Math.floor(Math.random() * 100) + 10;
-            currentCorrectAnswer = operation === '+' ? num1 + num2 : num1 - num2;
-        }
-    } else {
-        // High School Algebra/Math
-        const ops = ['+', '-', '×'];
-        operation = ops[Math.floor(Math.random() * ops.length)];
-        num1 = Math.floor(Math.random() * 50) + 10;
-        num2 = Math.floor(Math.random() * 30) + 5;
-        currentCorrectAnswer = operation === '+' ? num1 + num2 : (operation === '-' ? num1 - num2 : num1 * num2);
     }
 
     const eqElem = document.getElementById('game-equation');
@@ -327,31 +378,28 @@ function generateMathProblem() {
 
 function checkAnswer(selected) {
     if (quizState.isProcessingAnswer) return;
+    quizState.isProcessingAnswer = true;
+    clearInterval(quizState.timerInterval);
 
     quizState.totalAttempts++;
     const feedback = document.getElementById('feedback-msg');
     const buttons = document.querySelectorAll('.game-option');
     
+    // Disable all buttons immediately so no extra clicks are allowed
+    buttons.forEach(btn => btn.disabled = true);
+
     if (selected === currentCorrectAnswer) {
-        quizState.isProcessingAnswer = true;
-        clearInterval(quizState.timerInterval);
+        // Correct on first try!
+        quizState.firstTryCorrect++;
+        quizState.earnedXp += 10;
 
-        // Accurate first-try scoring
-        if (!quizState.currentQuestionHasError) {
-            quizState.firstTryCorrect++;
-            quizState.earnedXp += 10;
-        } else {
-            quizState.earnedXp += 5; // Partial credit
-        }
-
-        feedback.innerText = 'Correct! 🎉 ត្រឹមត្រូវល្អណាស់!';
+        feedback.innerHTML = '🎉 <b>ត្រឹមត្រូវល្អណាស់!</b> (+10 XP)';
         feedback.className = 'feedback correct';
         
         buttons.forEach(btn => {
             if (parseInt(btn.innerText) === currentCorrectAnswer) {
                 btn.style.background = '#10b981'; // green
             }
-            btn.disabled = true;
         });
 
         setTimeout(() => {
@@ -361,24 +409,36 @@ function checkAnswer(selected) {
                 startQuizTimer();
                 generateMathProblem();
             } else {
-                // Completed all questions in the lesson!
                 showLessonVictory();
             }
         }, 1200);
     } else {
+        // Wrong answer: mark as wrong, reveal correct answer, give 0 XP, then advance!
         quizState.wrongAttempts++;
         quizState.currentQuestionHasError = true;
 
-        feedback.innerText = 'Try again! មិនទាន់ត្រឹមត្រូវទេ ព្យាយាមម្តងទៀត';
+        feedback.innerHTML = `❌ <b>មិនត្រឹមត្រូវទេ!</b> ចម្លើយត្រឹមត្រូវគឺ <b>${currentCorrectAnswer}</b> (+0 XP)`;
         feedback.className = 'feedback wrong';
         
         buttons.forEach(btn => {
-            if (parseInt(btn.innerText) === selected) {
-                btn.style.background = '#ef4444'; // red
-                btn.style.opacity = '0.5';
-                btn.disabled = true;
+            const val = parseInt(btn.innerText);
+            if (val === selected) {
+                btn.style.background = '#ef4444'; // Red for user's wrong choice
+            } else if (val === currentCorrectAnswer) {
+                btn.style.background = '#10b981'; // Green to reveal the correct answer!
             }
         });
+
+        setTimeout(() => {
+            if (quizState.currentQuestion < quizState.totalQuestions) {
+                quizState.currentQuestion++;
+                updateQuizProgress();
+                startQuizTimer();
+                generateMathProblem();
+            } else {
+                showLessonVictory();
+            }
+        }, 1800);
     }
 }
 
