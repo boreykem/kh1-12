@@ -41,12 +41,10 @@ gradeSelect.addEventListener('change', (e) => {
         appDiv.classList.remove('junior-theme');
         appDiv.classList.add('senior-theme');
         heroSubtext.innerText = `Preparing for success in Grade ${grade}. Stay focused!`;
-        document.getElementById('math-play-btn').setAttribute('onclick', 'openAlgebraGame()');
     } else {
         appDiv.classList.remove('senior-theme');
         appDiv.classList.add('junior-theme');
         heroSubtext.innerText = "Ready for today's Math and Science challenges?";
-        document.getElementById('math-play-btn').setAttribute('onclick', 'openMathGame()');
     }
 
     // Update Topics based on Grade level (Simulated content changes)
@@ -112,12 +110,8 @@ async function renderLearningMap(subject) {
         const res = await fetch('/curriculum.json');
         const db = await res.json();
         
-        // Find the closest grade mapping
+        // Find the specific grade mapping
         let gradeKey = `grade_${grade}`;
-        if (!db[gradeKey]) {
-            // Fallback: Use grade 1 for primary (<=6) and grade 7 for secondary (>6)
-            gradeKey = grade <= 6 ? 'grade_1' : 'grade_7';
-        }
 
         if (db[gradeKey] && db[gradeKey][subject]) {
             nodes = db[gradeKey][subject];
