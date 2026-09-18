@@ -293,7 +293,43 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.lesson-counter {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    opacity: 0.8;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.lesson-counter b {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.quiz-progress-wrap {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.senior-theme .quiz-progress-wrap {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quiz-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 20px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
 .timer {
@@ -302,6 +338,90 @@ body {
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-weight: 700;
+}
+
+/* Victory Screen Styles */
+.victory-container {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.victory-badge {
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+    animation: bounce 1s infinite alternate ease-in-out;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+.victory-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.victory-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+.victory-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.vstat-card {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.senior-theme .vstat-card {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.vstat-card i {
+    font-size: 1.5rem;
+}
+
+.vstat-val {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.vstat-lbl {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    color: var(--text-main);
+}
+
+.victory-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .equation {

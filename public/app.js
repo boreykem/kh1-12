@@ -95,26 +95,40 @@ function closeLearningMap() {
     document.getElementById('learning-map-overlay').classList.add('hidden');
 }
 
+let currentCurriculumDB = null;
+let currentActiveSubject = 'math';
+let currentActiveGradeKey = 'grade_1';
+let currentActiveLessonIndex = 0;
+let currentLessonTitle = '';
+
+let quizState = {
+    currentQuestion: 1,
+    totalQuestions: 5,
+    timer: 30,
+    timerInterval: null
+};
+
 async function renderLearningMap(subject) {
+    currentActiveSubject = subject || 'math';
     const container = document.getElementById('map-nodes-container');
     container.innerHTML = '<div class="path-line"></div>';
 
-    const grade = parseInt(document.getElementById('grade-select').value);
+    const grade = parseInt(document.getElementById('grade-select').value) || 1;
+    currentActiveGradeKey = `grade_${grade}`;
     
-    // Default fallback nodes if fetch fails
+    // Default fallback nodes
     let nodes = [
         { title: 'ហ្គេមគណិតវិទ្យា', icon: 'fa-calculator', color: '#3b82f6', locked: false, gameId: 'math_basic' }
     ];
 
     try {
-        const res = await fetch('/curriculum.json');
-        const db = await res.json();
+        if (!currentCurriculumDB) {
+            const res = await fetch('/curriculum.json?v=' + Date.now());
+            currentCurriculumDB = await res.json();
+        }
         
-        // Find the specific grade mapping
-        let gradeKey = `grade_${grade}`;
-
-        if (db[gradeKey] && db[gradeKey][subject]) {
-            nodes = db[gradeKey][subject];
+        if (currentCurriculumDB[currentActiveGradeKey] && currentCurriculumDB[currentActiveGradeKey][subject]) {
+            nodes = currentCurriculumDB[currentActiveGradeKey][subject];
         }
     } catch (err) {
         console.error('Failed to load curriculum DB', err);
@@ -129,13 +143,11 @@ async function renderLearningMap(subject) {
         // Determine click action
         let action = '';
         if (node.locked) {
-            action = `alert('វគ្គនេះជាប់សោរ (Locked)! ត្រូវលេងវគ្គមុនឲ្យឈ្នះសិន។')`;
+            action = `alert('🔒 វគ្គនេះជាប់សោរ (Locked)! សូមបញ្ចប់មេរៀនមុនៗជាមុនសិន។')`;
         } else if (node.gameId === 'algebra_balance') {
             action = `openAlgebraGame()`;
-        } else if (node.gameId === 'math_basic') {
-            action = `openMathGame()`;
         } else {
-            action = `alert('ហ្គេមនេះកំពុងស្ថិតក្នុងការអភិវឌ្ឍ! Coming soon!')`;
+            action = `openMathGame('${node.id}', '${node.title.replace(/'/g, "\\'")}', ${index})`;
         }
 
         const nodeHTML = `
@@ -152,34 +164,128 @@ async function renderLearningMap(subject) {
 }
 
 // --- Math Game (Multiple Choice) Logic ---
-function openMathGame() {
+function openMathGame(lessonId, lessonTitle, lessonIndex) {
+    currentActiveLessonIndex = lessonIndex !== undefined ? lessonIndex : 0;
+    currentLessonTitle = lessonTitle || 'លំហាត់អនុវត្តន៍';
+    
+    quizState.currentQuestion = 1;
+    quizState.totalQuestions = 5;
+
+    // Switch views: show active quiz, hide victory screen
+    document.getElementById('quiz-active-view').classList.remove('hidden');
+    document.getElementById('quiz-victory-view').classList.add('hidden');
     document.getElementById('math-game-overlay').classList.remove('hidden');
+
+    const titleElem = document.getElementById('quiz-lesson-title');
+    if (titleElem) titleElem.innerText = currentLessonTitle;
+
+    startQuizTimer();
+    updateQuizProgress();
     generateMathProblem();
 }
 
 function closeMathGame() {
+    clearInterval(quizState.timerInterval);
     document.getElementById('math-game-overlay').classList.add('hidden');
     document.getElementById('feedback-msg').innerText = '';
 }
 
-function generateMathProblem() {
-    // Generate simple addition problem based on current grade complexity
-    const grade = parseInt(gradeSelect.value);
-    const maxNum = grade >= 7 ? 50 : 10;
-    
-    const num1 = Math.floor(Math.random() * maxNum) + 1;
-    const num2 = Math.floor(Math.random() * maxNum) + 1;
-    currentCorrectAnswer = num1 + num2;
+function startQuizTimer() {
+    clearInterval(quizState.timerInterval);
+    quizState.timer = 30;
+    const timerElem = document.getElementById('quiz-timer');
+    if (timerElem) timerElem.innerText = '00:30';
 
-    document.getElementById('num1').innerText = num1;
-    document.getElementById('num2').innerText = num2;
+    quizState.timerInterval = setInterval(() => {
+        quizState.timer--;
+        const formatted = quizState.timer < 10 ? `00:0${quizState.timer}` : `00:${quizState.timer}`;
+        if (timerElem) timerElem.innerText = formatted;
+
+        if (quizState.timer <= 0) {
+            clearInterval(quizState.timerInterval);
+            const feedback = document.getElementById('feedback-msg');
+            if (feedback) {
+                feedback.innerText = '⏰ អស់ពេលហើយ! សាកល្បងសំណួរថ្មី';
+                feedback.className = 'feedback wrong';
+            }
+            setTimeout(() => {
+                startQuizTimer();
+                generateMathProblem();
+            }, 1500);
+        }
+    }, 1000);
+}
+
+function updateQuizProgress() {
+    const progressFill = document.getElementById('quiz-progress-fill');
+    const counterElem = document.getElementById('quiz-counter');
+    
+    const pct = Math.round((quizState.currentQuestion / quizState.totalQuestions) * 100);
+    if (progressFill) progressFill.style.width = `${pct}%`;
+    if (counterElem) counterElem.innerHTML = `<i class="fa-solid fa-list-check"></i> សំណួរទី <b>${quizState.currentQuestion}/${quizState.totalQuestions}</b>`;
+}
+
+function generateMathProblem() {
+    const grade = parseInt(document.getElementById('grade-select').value) || 1;
+    
+    // Adapt numbers based on Grade
+    let num1, num2, operation = '+';
+    if (grade === 1) {
+        num1 = Math.floor(Math.random() * 10) + 1;
+        num2 = Math.floor(Math.random() * 10) + 1;
+        currentCorrectAnswer = num1 + num2;
+    } else if (grade <= 3) {
+        const ops = ['+', '-', '×'];
+        operation = ops[Math.floor(Math.random() * ops.length)];
+        if (operation === '+') {
+            num1 = Math.floor(Math.random() * 50) + 10;
+            num2 = Math.floor(Math.random() * 50) + 10;
+            currentCorrectAnswer = num1 + num2;
+        } else if (operation === '-') {
+            num1 = Math.floor(Math.random() * 50) + 20;
+            num2 = Math.floor(Math.random() * 20) + 1;
+            currentCorrectAnswer = num1 - num2;
+        } else {
+            num1 = Math.floor(Math.random() * 9) + 2;
+            num2 = Math.floor(Math.random() * 9) + 2;
+            currentCorrectAnswer = num1 * num2;
+        }
+    } else if (grade <= 6) {
+        const ops = ['+', '-', '×', '÷'];
+        operation = ops[Math.floor(Math.random() * ops.length)];
+        if (operation === '÷') {
+            num2 = Math.floor(Math.random() * 9) + 2;
+            currentCorrectAnswer = Math.floor(Math.random() * 12) + 2;
+            num1 = num2 * currentCorrectAnswer;
+        } else if (operation === '×') {
+            num1 = Math.floor(Math.random() * 15) + 3;
+            num2 = Math.floor(Math.random() * 12) + 2;
+            currentCorrectAnswer = num1 * num2;
+        } else {
+            num1 = Math.floor(Math.random() * 200) + 50;
+            num2 = Math.floor(Math.random() * 100) + 10;
+            currentCorrectAnswer = operation === '+' ? num1 + num2 : num1 - num2;
+        }
+    } else {
+        // High School Algebra/Math
+        const ops = ['+', '-', '×'];
+        operation = ops[Math.floor(Math.random() * ops.length)];
+        num1 = Math.floor(Math.random() * 50) + 10;
+        num2 = Math.floor(Math.random() * 30) + 5;
+        currentCorrectAnswer = operation === '+' ? num1 + num2 : (operation === '-' ? num1 - num2 : num1 * num2);
+    }
+
+    const eqElem = document.getElementById('game-equation');
+    if (eqElem) {
+        eqElem.innerHTML = `<span>${num1}</span> ${operation} <span>${num2}</span> = ?`;
+    }
 
     // Generate options
     const options = [currentCorrectAnswer];
-    while(options.length < 4) {
-        const offset = Math.floor(Math.random() * 5) + 1;
+    while (options.length < 4) {
+        const offset = Math.floor(Math.random() * 6) + 1;
         const fakeAnswer = Math.random() > 0.5 ? currentCorrectAnswer + offset : currentCorrectAnswer - offset;
-        if (!options.includes(fakeAnswer) && fakeAnswer > 0) {
+        if (!options.includes(fakeAnswer)) {
             options.push(fakeAnswer);
         }
     }
@@ -192,7 +298,6 @@ function generateMathProblem() {
     buttons.forEach((btn, index) => {
         btn.innerText = options[index];
         btn.setAttribute('onclick', `checkAnswer(${options[index]})`);
-        // Reset colors
         btn.style.background = 'var(--primary-color)';
     });
 
@@ -204,9 +309,9 @@ function checkAnswer(selected) {
     const buttons = document.querySelectorAll('.game-option');
     
     if (selected === currentCorrectAnswer) {
-        feedback.innerText = 'Correct! 🎉 ល្អណាស់!';
+        feedback.innerText = 'Correct! 🎉 ត្រឹមត្រូវល្អណាស់!';
         feedback.className = 'feedback correct';
-        // Highlight correct button
+        
         buttons.forEach(btn => {
             if (parseInt(btn.innerText) === currentCorrectAnswer) {
                 btn.style.background = '#10b981'; // green
@@ -220,15 +325,24 @@ function checkAnswer(selected) {
             body: JSON.stringify({ xpEarned: 10 })
         }).then(res => res.json()).then(data => {
             if (data.success) {
-                document.querySelector('.pill:nth-child(1)').innerHTML = `<i class="fa-solid fa-star text-yellow"></i> ${data.newTotalXp} XP`;
+                const xpPill = document.querySelector('.pill:nth-child(1)');
+                if (xpPill) xpPill.innerHTML = `<i class="fa-solid fa-star text-yellow"></i> ${data.newTotalXp} XP`;
             }
         });
 
         setTimeout(() => {
-            generateMathProblem();
-        }, 1500);
+            if (quizState.currentQuestion < quizState.totalQuestions) {
+                quizState.currentQuestion++;
+                updateQuizProgress();
+                startQuizTimer();
+                generateMathProblem();
+            } else {
+                // Completed all questions in the lesson!
+                showLessonVictory();
+            }
+        }, 1200);
     } else {
-        feedback.innerText = 'Try again! ព្យាយាមម្តងទៀត';
+        feedback.innerText = 'Try again! មិនទាន់ត្រឹមត្រូវទេ ព្យាយាមម្តងទៀត';
         feedback.className = 'feedback wrong';
         
         buttons.forEach(btn => {
@@ -237,6 +351,32 @@ function checkAnswer(selected) {
             }
         });
     }
+}
+
+function showLessonVictory() {
+    clearInterval(quizState.timerInterval);
+    document.getElementById('quiz-active-view').classList.add('hidden');
+    document.getElementById('quiz-victory-view').classList.remove('hidden');
+
+    const victorySubtitle = document.getElementById('victory-lesson-name');
+    if (victorySubtitle) {
+        victorySubtitle.innerText = `អ្នកបានបញ្ចប់ «${currentLessonTitle}» ដោយជោគជ័យ!`;
+    }
+
+    // Unlock next node in current grade curriculum
+    if (currentCurriculumDB && currentCurriculumDB[currentActiveGradeKey] && currentCurriculumDB[currentActiveGradeKey][currentActiveSubject]) {
+        const lessons = currentCurriculumDB[currentActiveGradeKey][currentActiveSubject];
+        const nextIndex = currentActiveLessonIndex + 1;
+        if (nextIndex < lessons.length) {
+            lessons[nextIndex].locked = false;
+        }
+    }
+}
+
+function finishLessonAndUnlockNext() {
+    closeMathGame();
+    // Re-render map to show newly unlocked node
+    renderLearningMap(currentActiveSubject);
 }
 
 // --- Algebra Balance Game Logic ---

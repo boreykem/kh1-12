@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klemtech - Math & Science Learning</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -101,11 +101,19 @@
 
         <!-- Math Game Overlay (Interactive Component) -->
         <div id="math-game-overlay" class="overlay hidden">
-            <div class="game-container glass-panel">
+            <div class="game-container glass-panel" id="quiz-active-view">
                 <button class="close-btn" onclick="closeMathGame()"><i class="fa-solid fa-xmark"></i></button>
                 <div class="game-header">
-                    <h3>Quick Challenge!</h3>
-                    <div class="timer">00:30</div>
+                    <div>
+                        <h3 id="quiz-lesson-title">លំហាត់អនុវត្តន៍</h3>
+                        <div class="lesson-counter" id="quiz-counter"><i class="fa-solid fa-list-check"></i> សំណួរទី <b>1/5</b></div>
+                    </div>
+                    <div class="timer" id="quiz-timer">00:30</div>
+                </div>
+
+                <!-- Duolingo-style Animated Progress Bar -->
+                <div class="quiz-progress-wrap">
+                    <div class="quiz-progress-bar" id="quiz-progress-fill" style="width: 20%;"></div>
                 </div>
                 
                 <div class="equation" id="game-equation">
@@ -120,6 +128,37 @@
                 </div>
 
                 <div id="feedback-msg" class="feedback"></div>
+            </div>
+
+            <!-- Lesson Victory / Completed Screen -->
+            <div class="game-container glass-panel victory-container hidden" id="quiz-victory-view">
+                <div class="victory-badge">
+                    <i class="fa-solid fa-trophy text-yellow"></i>
+                </div>
+                <h2 class="victory-title">🎉 អស្ចារ្យណាស់!</h2>
+                <p class="victory-subtitle" id="victory-lesson-name">អ្នកបានបញ្ចប់មេរៀននេះដោយជោគជ័យ!</p>
+                
+                <div class="victory-stats">
+                    <div class="vstat-card">
+                        <i class="fa-solid fa-star text-yellow"></i>
+                        <span class="vstat-val">+50 XP</span>
+                        <span class="vstat-lbl">ពិន្ទុបន្ថែម</span>
+                    </div>
+                    <div class="vstat-card">
+                        <i class="fa-solid fa-bullseye" style="color: #10b981;"></i>
+                        <span class="vstat-val">100%</span>
+                        <span class="vstat-lbl">ភាពត្រឹមត្រូវ</span>
+                    </div>
+                    <div class="vstat-card">
+                        <i class="fa-solid fa-lock-open" style="color: #3b82f6;"></i>
+                        <span class="vstat-val">បានដោះសោរ</span>
+                        <span class="vstat-lbl">មេរៀនបន្ទាប់</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary victory-btn" onclick="finishLessonAndUnlockNext()">
+                    បន្តទៅកាន់ផែនទីរៀន <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
@@ -201,6 +240,6 @@
         </main>
     </div>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>
