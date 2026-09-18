@@ -1,0 +1,22 @@
+{
+    "grade_1": {
+        "math": [
+            { "id": "g1_u1", "title": "មេរៀនទី១៖ ចំនួន ១ ដល់ ៥", "icon": "fa-1", "color": "#ef4444", "locked": false, "gameId": "math_basic" },
+            { "id": "g1_u2", "title": "មេរៀនទី២៖ ការបូកក្នុងរង្វង់ ៥", "icon": "fa-plus", "color": "#f59e0b", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u3", "title": "មេរៀនទី៣៖ ការដកក្នុងរង្វង់ ៥", "icon": "fa-minus", "color": "#10b981", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u4", "title": "មេរៀនទី៤៖ ចំនួន ៦ ដល់ ១០", "icon": "fa-list-ol", "color": "#3b82f6", "locked": true, "gameId": "math_basic" },
+            { "id": "g1_u5", "title": "មេរៀនទី៥៖ រូបធរណីមាត្រ (Shape)", "icon": "fa-shapes", "color": "#8b5cf6", "locked": true, "gameId": "math_geometry" },
+            { "id": "g1_u6", "title": "មេរៀនទី៦៖ ការវាស់វែង (ប្រវែង)", "icon": "fa-ruler", "color": "#ec4899", "locked": true, "gameId": "math_measurement" }
+        ]
+    },
+    "grade_7": {
+        "math": [
+            { "id": "g7_u1", "title": "មេរៀនទី១៖ ចំនួនគត់រ៉ឺឡាទីប", "icon": "fa-plus-minus", "color": "#ef4444", "locked": false, "gameId": "math_basic" },
+            { "id": "g7_u2", "title": "មេរៀនទី២៖ កន្សោមពិជគណិត", "icon": "fa-xmark", "color": "#f59e0b", "locked": true, "gameId": "algebra_balance" },
+            { "id": "g7_u3", "title": "មេរៀនទី៣៖ សមីការដឺក្រេទី១ (ជញ្ជីង)", "icon": "fa-scale-balanced", "color": "#3b82f6", "locked": false, "gameId": "algebra_balance" },
+            { "id": "g7_u4", "title": "មេរៀនទី៤៖ មុំ និងបន្ទាត់", "icon": "fa-pen-ruler", "color": "#10b981", "locked": true, "gameId": "math_geometry" },
+            { "id": "g7_u5", "title": "មេរៀនទី៥៖ ត្រីកោណ", "icon": "fa-caret-up", "color": "#8b5cf6", "locked": true, "gameId": "math_geometry" },
+            { "id": "g7_u6", "title": "មេរៀនទី៦៖ ស្ថិតិ", "icon": "fa-chart-pie", "color": "#ec4899", "locked": true, "gameId": "math_stats" }
+        ]
+    }
+}

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klemtech - Math & Science Learning</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Suwannaphum:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -67,7 +67,7 @@
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 65%;"></div>
                     </div>
-                    <button class="btn btn-primary play-btn" onclick="openMathGame()">Play Now <i class="fa-solid fa-play"></i></button>
+                    <button class="btn btn-primary play-btn khmer-text" id="math-play-btn" onclick="openLearningMap('math')">មើលផែនទីមេរៀន <i class="fa-solid fa-map-location-dot"></i></button>
                 </div>
 
                 <!-- Science Subject Card -->
@@ -78,10 +78,26 @@
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 30%;"></div>
                     </div>
-                    <button class="btn btn-primary play-btn">Explore <i class="fa-solid fa-rocket"></i></button>
+                    <button class="btn btn-primary play-btn" onclick="alert('មុខវិជ្ជាវិទ្យាសាស្ត្រនឹងមានក្នុងពេលឆាប់ៗនេះ! Science is coming soon! 🚀')">Explore <i class="fa-solid fa-rocket"></i></button>
                 </div>
             </section>
         </main>
+        <!-- Learning Map Overlay -->
+        <div id="learning-map-overlay" class="overlay hidden">
+            <div class="map-container glass-panel">
+                <button class="close-btn" onclick="closeLearningMap()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="map-header">
+                    <h3 class="khmer-text" id="map-title">ផែនទីមេរៀន</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="map-progress-fill" style="width: 30%;"></div>
+                    </div>
+                </div>
+                
+                <div class="path-container" id="map-nodes-container">
+                    <!-- Nodes injected via JS -->
+                </div>
+            </div>
+        </div>
 
         <!-- Math Game Overlay (Interactive Component) -->
         <div id="math-game-overlay" class="overlay hidden">
@@ -104,6 +120,50 @@
                 </div>
 
                 <div id="feedback-msg" class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Algebra Balance Game Overlay -->
+        <div id="algebra-game-overlay" class="overlay hidden">
+            <div class="game-container glass-panel algebra-container">
+                <button class="close-btn" onclick="closeAlgebraGame()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="game-header">
+                    <h3>ហ្គេម ជញ្ជីងពិជគណិត</h3>
+                    <div class="en-text">Algebra Balance Scale</div>
+                </div>
+                
+                <div class="scale-visual">
+                    <div class="scale-beam" id="scale-beam"></div>
+                    <div class="scale-base"></div>
+                    
+                    <div class="scale-pan left-pan">
+                        <div class="pan-string left-string"></div>
+                        <div class="pan-plate" id="left-plate">
+                            <!-- Blocks go here -->
+                        </div>
+                        <div class="pan-value" id="left-value"></div>
+                    </div>
+                    
+                    <div class="scale-pan right-pan">
+                        <div class="pan-string right-string"></div>
+                        <div class="pan-plate" id="right-plate">
+                            <!-- Blocks go here -->
+                        </div>
+                        <div class="pan-value" id="right-value"></div>
+                    </div>
+                </div>
+
+                <div class="equation-display" id="algebra-equation">2x + 4 = 10</div>
+
+                <div class="algebra-controls">
+                    <p>គោលដៅ៖ ទុកឲ្យនៅសល់តែ <span class="x-block-small">X</span> មួយគត់នៅម្ខាង។</p>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary khmer-text" onclick="algebraAction('subtract', 1)">ដក ១ ចេញពីសងខាង</button>
+                        <button class="btn btn-primary khmer-text" onclick="algebraAction('divide', 2)" id="btn-div-2">ចែកនឹង ២ ទាំងសងខាង</button>
+                    </div>
+                </div>
+
+                <div id="algebra-feedback" class="feedback"></div>
             </div>
         </div>
 
