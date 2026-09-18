@@ -3,7 +3,7 @@
         "math": [
             {
                 "id": "g1_1",
-                "title": "ចំណាត់ថ្នាក់ក្រុម",
+                "title": "ចំណាត់ថ្នាក់ក្រុម និងការផ្គូផ្គង",
                 "icon": "fa-object-group",
                 "color": "#ef4444",
                 "locked": false,
@@ -27,79 +27,79 @@
             },
             {
                 "id": "g1_4",
-                "title": "ការបូកក្នុងរង្វង់ ៥",
-                "icon": "fa-plus",
+                "title": "ការប្រៀបធៀបចំនួន ១ ដល់ ៥",
+                "icon": "fa-scale-balanced",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_5",
-                "title": "ការដកក្នុងរង្វង់ ៥",
-                "icon": "fa-minus",
+                "title": "ការបូកក្នុងរង្វង់ ៥",
+                "icon": "fa-plus",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_6",
-                "title": "ចំនួន ៦ ដល់ ១០",
-                "icon": "fa-list-ol",
+                "title": "ការដកក្នុងរង្វង់ ៥",
+                "icon": "fa-minus",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_7",
-                "title": "ការបូកក្នុងរង្វង់ ១០",
-                "icon": "fa-plus",
+                "title": "ចំនួន ៦ ដល់ ១០",
+                "icon": "fa-list-ol",
                 "color": "#ef4444",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_8",
-                "title": "ការដកក្នុងរង្វង់ ១០",
-                "icon": "fa-minus",
+                "title": "ការប្រៀបធៀបចំនួនដល់ ១០",
+                "icon": "fa-code-compare",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_9",
-                "title": "រូបធរណីមាត្រ",
-                "icon": "fa-shapes",
+                "title": "ការបូកក្នុងរង្វង់ ១០",
+                "icon": "fa-plus",
                 "color": "#10b981",
                 "locked": true,
-                "gameId": "math_geometry"
+                "gameId": "math_basic"
             },
             {
                 "id": "g1_10",
-                "title": "ចំនួន ១១ ដល់ ២០",
-                "icon": "fa-hashtag",
+                "title": "ការដកក្នុងរង្វង់ ១០",
+                "icon": "fa-minus",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_11",
-                "title": "បូកដកក្នុងរង្វង់ ២០",
-                "icon": "fa-plus-minus",
+                "title": "រូបធរណីមាត្រ (រង្វង់ ការ៉េ ត្រីកោណ)",
+                "icon": "fa-shapes",
                 "color": "#8b5cf6",
                 "locked": true,
-                "gameId": "math_basic"
+                "gameId": "math_geometry"
             },
             {
                 "id": "g1_12",
-                "title": "ចំនួន ២១ ដល់ ១០០",
-                "icon": "fa-arrow-up-9-1",
+                "title": "ចំនួន ១១ ដល់ ២០",
+                "icon": "fa-hashtag",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g1_13",
-                "title": "បូកដកក្នុងរង្វង់ ១០០",
+                "title": "វិធីបូកដកក្នុងរង្វង់ ២០",
                 "icon": "fa-calculator",
                 "color": "#ef4444",
                 "locked": true,
@@ -107,15 +107,63 @@
             },
             {
                 "id": "g1_14",
-                "title": "ការវាស់វែង",
-                "icon": "fa-ruler",
+                "title": "ចំនួន ២១ ដល់ ១០០",
+                "icon": "fa-arrow-up-9-1",
                 "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g1_15",
+                "title": "វិធីបូកដកគ្មានត្រាទុកក្នុងរង្វង់ ១០០",
+                "icon": "fa-plus-minus",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g1_16",
+                "title": "វិធីបូកដកមានត្រាទុកក្នុងរង្វង់ ១០០",
+                "icon": "fa-calculator",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g1_17",
+                "title": "ប្រវែង និងខ្នាតរង្វាស់",
+                "icon": "fa-ruler",
+                "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_measurement"
             },
             {
-                "id": "g1_15",
-                "title": "ពេលវេលា",
+                "id": "g1_18",
+                "title": "ទម្ងន់ (ធ្ងន់ និងស្រាល)",
+                "icon": "fa-weight-scale",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g1_19",
+                "title": "មាឌ និងចំណុះ",
+                "icon": "fa-flask",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g1_20",
+                "title": "រូបិយវត្ថុ (ប្រាក់រៀលខ្មែរ)",
+                "icon": "fa-coins",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_time"
+            },
+            {
+                "id": "g1_21",
+                "title": "ពេលវេលា (ម៉ោង ថ្ងៃ ខែ)",
                 "icon": "fa-clock",
                 "color": "#10b981",
                 "locked": true,
@@ -127,7 +175,7 @@
         "math": [
             {
                 "id": "g2_1",
-                "title": "ចំនួនរហូតដល់ ១០០០",
+                "title": "ចំនួនរហូតដល់ ១០០",
                 "icon": "fa-arrow-up-9-1",
                 "color": "#3b82f6",
                 "locked": false,
@@ -135,67 +183,147 @@
             },
             {
                 "id": "g2_2",
-                "title": "វិធីបូកក្នុងរង្វង់ ១០០០",
-                "icon": "fa-plus",
+                "title": "ចំនួនរហូតដល់ ១,០០០",
+                "icon": "fa-hashtag",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g2_3",
-                "title": "វិធីដកក្នុងរង្វង់ ១០០០",
-                "icon": "fa-minus",
+                "title": "តម្លៃតាមខ្ទង់ និងការប្រៀបធៀប",
+                "icon": "fa-scale-balanced",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g2_4",
-                "title": "វិធីគុណ",
-                "icon": "fa-xmark",
+                "title": "វិធីបូកលេខ ៣ ខ្ទង់គ្មានត្រាទុក",
+                "icon": "fa-plus",
                 "color": "#ef4444",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g2_5",
-                "title": "វិធីចែក",
-                "icon": "fa-divide",
+                "title": "វិធីបូកលេខ ៣ ខ្ទង់មានត្រាទុក",
+                "icon": "fa-plus-circle",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g2_6",
-                "title": "ប្រភាគ",
-                "icon": "fa-pizza-slice",
+                "title": "វិធីដកលេខ ៣ ខ្ទង់គ្មានខ្ចី",
+                "icon": "fa-minus",
                 "color": "#10b981",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g2_7",
-                "title": "ធរណីមាត្រ",
+                "title": "វិធីដកលេខ ៣ ខ្ទង់មានខ្ចី",
+                "icon": "fa-minus-circle",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_8",
+                "title": "មូលដ្ឋាននៃវិធីគុណ",
+                "icon": "fa-xmark",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_9",
+                "title": "តារាងគុណ (មេ ២ ៣ ៤ ៥)",
+                "icon": "fa-table",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_10",
+                "title": "តារាងគុណ (មេ ៦ ៧ ៨ ៩)",
+                "icon": "fa-table-cells",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_11",
+                "title": "មូលដ្ឋាននៃវិធីចែក",
+                "icon": "fa-divide",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_12",
+                "title": "ប្រភាគ (១/២, ១/៣, ១/៤)",
+                "icon": "fa-pizza-slice",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g2_13",
+                "title": "រូបធរណីមាត្រ និងបន្ទាត់ត្រង់",
                 "icon": "fa-shapes",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g2_8",
-                "title": "រង្វាស់ប្រវែង និងទម្ងន់",
-                "icon": "fa-weight-scale",
+                "id": "g2_14",
+                "title": "ប្រវែង (សង់ទីម៉ែត្រ និងម៉ែត្រ)",
+                "icon": "fa-ruler-horizontal",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_measurement"
             },
             {
-                "id": "g2_9",
-                "title": "លុយ និងពេលវេលា",
-                "icon": "fa-coins",
+                "id": "g2_15",
+                "title": "ទម្ងន់ (គីឡូក្រាម និងក្រាម)",
+                "icon": "fa-weight-scale",
                 "color": "#ec4899",
                 "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g2_16",
+                "title": "ចំណុះ (លីត្រ)",
+                "icon": "fa-glass-water",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g2_17",
+                "title": "រូបិយវត្ថុ និងការអាប់លុយ",
+                "icon": "fa-money-bill-wave",
+                "color": "#f59e0b",
+                "locked": true,
                 "gameId": "math_time"
+            },
+            {
+                "id": "g2_18",
+                "title": "ពេលវេលា និងប្រតិទិន",
+                "icon": "fa-calendar-days",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_time"
+            },
+            {
+                "id": "g2_19",
+                "title": "ស្ថិតិ និងក្រាហ្វរូបភាព",
+                "icon": "fa-chart-column",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -203,7 +331,7 @@
         "math": [
             {
                 "id": "g3_1",
-                "title": "ចំនួនរហូតដល់ ១០០,០០០",
+                "title": "ចំនួនដល់ ១០,០០០",
                 "icon": "fa-arrow-up-9-1",
                 "color": "#ef4444",
                 "locked": false,
@@ -211,49 +339,113 @@
             },
             {
                 "id": "g3_2",
-                "title": "វិធីបូកនិងដក",
-                "icon": "fa-plus-minus",
+                "title": "ចំនួនដល់ ១០០,០០០",
+                "icon": "fa-hashtag",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g3_3",
-                "title": "វិធីគុណនិងចែក",
-                "icon": "fa-xmark",
+                "title": "វិធីបូក និងដកចំនួនធំ",
+                "icon": "fa-plus-minus",
                 "color": "#10b981",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g3_4",
-                "title": "ប្រភាគ",
-                "icon": "fa-chart-pie",
+                "title": "វិធីគុណលេខ ២ ខ្ទង់ និង ៣ ខ្ទង់",
+                "icon": "fa-xmark",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g3_5",
-                "title": "ទម្រង់ធរណីមាត្រ",
-                "icon": "fa-cube",
+                "title": "វិធីចែកមានសំណល់ និងគ្មានសំណល់",
+                "icon": "fa-divide",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g3_6",
+                "title": "កន្សោមលេខ និងលំដាប់ល្បះលេខ",
+                "icon": "fa-calculator",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g3_7",
+                "title": "ប្រភាគស្មើគ្នា និងប្រៀបធៀបប្រភាគ",
+                "icon": "fa-chart-pie",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g3_8",
+                "title": "វិធីបូក និងដកប្រភាគភាគបែងដូចគ្នា",
+                "icon": "fa-pizza-slice",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g3_9",
+                "title": "ចំនួនទសភាគមូលដ្ឋាន",
+                "icon": "fa-circle-dot",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g3_10",
+                "title": "មុំកែង និងបន្ទាត់កែង",
+                "icon": "fa-pen-ruler",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g3_11",
+                "title": "ចតុកោណកែង និងការ៉េ",
+                "icon": "fa-vector-square",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g3_6",
-                "title": "ផ្ទៃក្រឡា និងបរិមាត្រ",
-                "icon": "fa-vector-square",
+                "id": "g3_12",
+                "title": "បរិមាត្រ និងផ្ទៃក្រឡា",
+                "icon": "fa-draw-polygon",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g3_7",
-                "title": "ទិន្នន័យនិងក្រាហ្វិក",
-                "icon": "fa-chart-bar",
+                "id": "g3_13",
+                "title": "រង្វាស់ប្រវែង ទម្ងន់ និងចំណុះ",
+                "icon": "fa-scale-unbalanced",
                 "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g3_14",
+                "title": "ពេលវេលា (ម៉ោង នាទី វិនាទី)",
+                "icon": "fa-stopwatch",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_time"
+            },
+            {
+                "id": "g3_15",
+                "title": "ស្ថិតិ និងក្រាហ្វសសរ",
+                "icon": "fa-chart-simple",
+                "color": "#10b981",
                 "locked": true,
                 "gameId": "math_stats"
             }
@@ -263,7 +455,7 @@
         "math": [
             {
                 "id": "g4_1",
-                "title": "ចំនួនរហូតដល់ ១,០០០,០០០",
+                "title": "ចំនួនដល់លាន និងកោដិ",
                 "icon": "fa-calculator",
                 "color": "#3b82f6",
                 "locked": false,
@@ -271,35 +463,139 @@
             },
             {
                 "id": "g4_2",
-                "title": "ប្រភាគ និងលេខចម្រុះ",
-                "icon": "fa-pizza-slice",
+                "title": "វិធីបូក និងដកចំនួនធំ",
+                "icon": "fa-plus-minus",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g4_3",
-                "title": "ចំនួនទសភាគ",
-                "icon": "fa-circle-dot",
+                "title": "វិធីគុណចំនួនមានលេខច្រើនខ្ទង់",
+                "icon": "fa-xmark",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g4_4",
-                "title": "មុំ និងបន្ទាត់",
-                "icon": "fa-pen-ruler",
+                "title": "វិធីចែកចំនួនមានលេខច្រើនខ្ទង់",
+                "icon": "fa-divide",
                 "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_5",
+                "title": "តួចែក និងពហុគុណ",
+                "icon": "fa-filter",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_6",
+                "title": "ប្រភាគ និងលេខចម្រុះ",
+                "icon": "fa-pizza-slice",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_7",
+                "title": "វិធីបូក និងដកប្រភាគភាគបែងខុសគ្នា",
+                "icon": "fa-plus",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_8",
+                "title": "វិធីគុណ និងចែកប្រភាគ",
+                "icon": "fa-calculator",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_9",
+                "title": "ចំនួនទសភាគ និងតម្លៃខ្ទង់",
+                "icon": "fa-circle-dot",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_10",
+                "title": "វិធីបូក និងដកទសភាគ",
+                "icon": "fa-plus-minus",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_11",
+                "title": "វិធីគុណ និងចែកទសភាគ",
+                "icon": "fa-divide",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g4_12",
+                "title": "បន្ទាត់កែង និងបន្ទាត់ស្រប",
+                "icon": "fa-arrows-split-up-and-left",
+                "color": "#10b981",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g4_5",
-                "title": "មាត្រដ្ឋាន",
+                "id": "g4_13",
+                "title": "មុំស្រួច មុំកែង និងមុំទាល",
+                "icon": "fa-drafting-compass",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g4_14",
+                "title": "ត្រីកោណ និងចតុកោណ",
+                "icon": "fa-shapes",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g4_15",
+                "title": "បរិមាត្រ និងផ្ទៃក្រឡា",
+                "icon": "fa-vector-square",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g4_16",
+                "title": "មាត្រដ្ឋាន និងប្លង់",
+                "icon": "fa-map-location-dot",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g4_17",
+                "title": "រង្វាស់ប្រវែង ផ្ទៃក្រឡា និងម៉ាស់",
                 "icon": "fa-scale-unbalanced",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_measurement"
+            },
+            {
+                "id": "g4_18",
+                "title": "ស្ថិតិ និងដ្យាក្រាម",
+                "icon": "fa-chart-pie",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -307,35 +603,131 @@
         "math": [
             {
                 "id": "g5_1",
-                "title": "ប្រភាគ និងទសភាគ",
-                "icon": "fa-divide",
+                "title": "ប្រមាណវិធីចម្រុះលើចំនួនគត់",
+                "icon": "fa-calculator",
                 "color": "#10b981",
                 "locked": false,
                 "gameId": "math_basic"
             },
             {
                 "id": "g5_2",
-                "title": "ភាគរយ (%)",
-                "icon": "fa-percent",
+                "title": "លក្ខណៈចែកដាច់ (២, ៣, ៥, ៩, ១០)",
+                "icon": "fa-divide",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g5_3",
-                "title": "បរិមាណ និងមាឌ",
-                "icon": "fa-cubes",
+                "title": "ចំនួនបឋម និងកត្តាបឋម",
+                "icon": "fa-cubes-stacked",
                 "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_4",
+                "title": "ប្រភាគ និងលេខចម្រុះកម្រិតខ្ពស់",
+                "icon": "fa-chart-pie",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_5",
+                "title": "ប្រមាណវិធីលើប្រភាគចម្រុះ",
+                "icon": "fa-plus-minus",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_6",
+                "title": "ចំនួនទសភាគ និងការបង្គត់",
+                "icon": "fa-circle-dot",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_7",
+                "title": "ប្រមាណវិធីលើចំនួនទសភាគ",
+                "icon": "fa-calculator",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_8",
+                "title": "ភាគរយ (%) និងការអនុវត្ត",
+                "icon": "fa-percent",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_9",
+                "title": "ការគណនាការប្រាក់ និងការបញ្ចុះតម្លៃ",
+                "icon": "fa-tags",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g5_10",
+                "title": "ត្រីកោណ និងមុំក្នុងត្រីកោណ",
+                "icon": "fa-triangle-circle-square",
+                "color": "#ec4899",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g5_4",
-                "title": "ល្បឿន និងចម្ងាយ",
-                "icon": "fa-gauge-high",
-                "color": "#ec4899",
+                "id": "g5_11",
+                "title": "រង្វង់ (អង្កត់ផ្ចិត កាំ បរិមាត្រ ផ្ទៃក្រឡា)",
+                "icon": "fa-circle-notch",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g5_12",
+                "title": "ផ្ទៃក្រឡាពហុកោណ",
+                "icon": "fa-draw-polygon",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g5_13",
+                "title": "រូបធរណីមាត្រក្នុងលំហ (គូប ប្រលេពីប៉ែត)",
+                "icon": "fa-cube",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g5_14",
+                "title": "មាឌ និងចំណុះ (m³, dm³, cm³)",
+                "icon": "fa-cubes",
+                "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_measurement"
+            },
+            {
+                "id": "g5_15",
+                "title": "ល្បឿន ចម្ងាយ និងរយៈពេល",
+                "icon": "fa-gauge-high",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g5_16",
+                "title": "ស្ថិតិ មធ្យមភាគ និងក្រាហ្វ",
+                "icon": "fa-chart-line",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -343,33 +735,113 @@
         "math": [
             {
                 "id": "g6_1",
-                "title": "ស៊េរី និងលំដាប់",
-                "icon": "fa-arrow-down-1-9",
+                "title": "ប្រមាណវិធីលើចំនួនគត់ និងទសភាគ",
+                "icon": "fa-calculator",
                 "color": "#ef4444",
                 "locked": false,
                 "gameId": "math_basic"
             },
             {
                 "id": "g6_2",
-                "title": "សមាមាត្រ",
-                "icon": "fa-balance-scale",
+                "title": "កត្តារួមធំបំផុត (GCD) និងពហុគុណតូចបំផុត (LCM)",
+                "icon": "fa-arrows-split-up-and-left",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_basic"
             },
             {
                 "id": "g6_3",
-                "title": "ធរណីមាត្រក្នុងលំហ",
+                "title": "ប្រមាណវិធីចម្រុះលើប្រភាគ និងទសភាគ",
+                "icon": "fa-plus-minus",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g6_4",
+                "title": "ភាគរយ និងសមាមាត្រ",
+                "icon": "fa-percent",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g6_5",
+                "title": "សមាមាត្រ និងការគណនាប្លង់",
+                "icon": "fa-scale-balanced",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g6_6",
+                "title": "ធរណីមាត្រ (មុំ បន្ទាត់ និងរូបផ្គុំ)",
+                "icon": "fa-drafting-compass",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g6_7",
+                "title": "ផ្ទៃក្រឡាត្រីកោណ និងចតុកោណស្មុគស្មាញ",
+                "icon": "fa-vector-square",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g6_8",
+                "title": "បរិមាត្រ និងផ្ទៃក្រឡារង្វង់",
+                "icon": "fa-circle-notch",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g6_9",
+                "title": "មាឌ និងផ្ទៃនៃរូបសូលីត (ស៊ីឡាំង គូប)",
                 "icon": "fa-cube",
                 "color": "#10b981",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g6_4",
-                "title": "ស្ថិតិ និងប្រូបាប",
-                "icon": "fa-chart-pie",
+                "id": "g6_10",
+                "title": "ល្បឿនមធ្យម និងចលនា",
+                "icon": "fa-gauge-high",
                 "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g6_11",
+                "title": "ម៉ាស់ និងដង់ស៊ីតេ",
+                "icon": "fa-weight-scale",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_measurement"
+            },
+            {
+                "id": "g6_12",
+                "title": "រូបិយវត្ថុ និងពាណិជ្ជកម្ម (ចំណេញ-ខាត)",
+                "icon": "fa-coins",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g6_13",
+                "title": "ស្ថិតិ និងដ្យាក្រាមរង្វង់",
+                "icon": "fa-chart-pie",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_stats"
+            },
+            {
+                "id": "g6_14",
+                "title": "ប្រូបាប៊ីលីតេបឋម",
+                "icon": "fa-dice",
+                "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_stats"
             }
@@ -379,7 +851,7 @@
         "math": [
             {
                 "id": "g7_1",
-                "title": "ចំនួនគត់រ៉ឺឡាទីប",
+                "title": "ចំនួនគត់រ៉ឺឡាទីវ",
                 "icon": "fa-plus-minus",
                 "color": "#ef4444",
                 "locked": false,
@@ -387,41 +859,113 @@
             },
             {
                 "id": "g7_2",
-                "title": "កន្សោមពិជគណិត",
-                "icon": "fa-xmark",
+                "title": "ប្រមាណវិធីលើចំនួនគត់រ៉ឺឡាទីវ",
+                "icon": "fa-calculator",
                 "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g7_3",
+                "title": "ចំនួនសនិទាន",
+                "icon": "fa-divide",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g7_4",
+                "title": "ស្វ័យគុណនៃចំនួនសនិទាន",
+                "icon": "fa-superscript",
+                "color": "#3b82f6",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
-                "id": "g7_3",
-                "title": "សមីការដឺក្រេទី១",
-                "icon": "fa-scale-balanced",
-                "color": "#3b82f6",
-                "locked": false,
+                "id": "g7_5",
+                "title": "កន្សោមពិជគណិត",
+                "icon": "fa-xmark",
+                "color": "#8b5cf6",
+                "locked": true,
                 "gameId": "algebra_balance"
             },
             {
-                "id": "g7_4",
-                "title": "មុំ និងបន្ទាត់",
+                "id": "g7_6",
+                "title": "សមីការដឺក្រេទី១ មានមួយអញ្ញាត",
+                "icon": "fa-scale-balanced",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g7_7",
+                "title": "វិសមីការដឺក្រេទី១ មានមួយអញ្ញាត",
+                "icon": "fa-not-equal",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g7_8",
+                "title": "ផលធៀប សមាមាត្រ និងភាគរយ",
+                "icon": "fa-percent",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_basic"
+            },
+            {
+                "id": "g7_9",
+                "title": "មុំ និងបន្ទាត់ស្រប",
                 "icon": "fa-pen-ruler",
                 "color": "#10b981",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g7_5",
-                "title": "ត្រីកោណ",
+                "id": "g7_10",
+                "title": "ត្រីកោណ និងលក្ខណៈត្រីកោណ",
                 "icon": "fa-caret-up",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g7_11",
+                "title": "ត្រីកោណប៉ុនគ្នា",
+                "icon": "fa-shapes",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g7_6",
-                "title": "ស្ថិតិ",
-                "icon": "fa-chart-pie",
+                "id": "g7_12",
+                "title": "បន្ទាត់ពុះមុំ និងកម្ពស់",
+                "icon": "fa-drafting-compass",
                 "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g7_13",
+                "title": "ចតុកោណ និងប្រលេឡូក្រាម",
+                "icon": "fa-vector-square",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g7_14",
+                "title": "ធរណីមាត្រក្នុងលំហ (ពីរ៉ាមីត ស៊ីឡាំង)",
+                "icon": "fa-cube",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g7_15",
+                "title": "ស្ថិតិ (ប្រេកង់ តារាង និងដ្យាក្រាម)",
+                "icon": "fa-chart-pie",
+                "color": "#10b981",
                 "locked": true,
                 "gameId": "math_stats"
             }
@@ -431,35 +975,123 @@
         "math": [
             {
                 "id": "g8_1",
-                "title": "ពហុធា",
-                "icon": "fa-layer-group",
+                "title": "ចំនួនអសនិទាន និងរ៉ាឌីកាល់ (√)",
+                "icon": "fa-square-root-variable",
                 "color": "#ef4444",
                 "locked": false,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g8_2",
-                "title": "សមីការ និងវិសមីការ",
-                "icon": "fa-not-equal",
+                "title": "ស្វ័យគុណ និងទម្រង់វិទ្យាសាស្ត្រ",
+                "icon": "fa-superscript",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g8_3",
-                "title": "ត្រីកោណប៉ុនគ្នា",
-                "icon": "fa-shapes",
+                "title": "ពហុធា និងប្រមាណវិធីលើពហុធា",
+                "icon": "fa-layer-group",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_4",
+                "title": "ផលគុណកត្តា និងរូបមន្តសំខាន់ៗ ((a±b)², a²-b²)",
+                "icon": "fa-cubes-stacked",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_5",
+                "title": "ប្រភាគពិជគណិត",
+                "icon": "fa-divide",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_6",
+                "title": "សមីការដឺក្រេទី១ មានមួយអញ្ញាត និងចំណោទ",
+                "icon": "fa-scale-balanced",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_7",
+                "title": "វិសមីការដឺក្រេទី១ មានមួយអញ្ញាត",
+                "icon": "fa-not-equal",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_8",
+                "title": "ប្លង់កូអរដោណេ និងក្រាហ្វ",
+                "icon": "fa-chart-line",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g8_9",
+                "title": "ទ្រឹស្តីបទពីតាករ",
+                "icon": "fa-ruler-triangle",
                 "color": "#10b981",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g8_4",
-                "title": "វ៉ិចទ័រ",
-                "icon": "fa-arrow-right",
+                "id": "g8_10",
+                "title": "ត្រីកោណប៉ុនគ្នា និងត្រីកោណដូចគ្នា",
+                "icon": "fa-shapes",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_geometry"
+            },
+            {
+                "id": "g8_11",
+                "title": "វ៉ិចទ័រក្នុងប្លង់",
+                "icon": "fa-arrow-right",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g8_12",
+                "title": "ចតុកោណ និងផ្ទៃក្រឡា",
+                "icon": "fa-vector-square",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g8_13",
+                "title": "រង្វង់ (បន្ទាត់ប៉ះ មុំក្នុងរង្វង់)",
+                "icon": "fa-circle-notch",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g8_14",
+                "title": "សូលីត (ផ្ទៃខាង និងមាឌស៊ីឡាំង កោន)",
+                "icon": "fa-cube",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g8_15",
+                "title": "ស្ថិតិ (មធ្យម មេដ្យាន ម៉ូត)",
+                "icon": "fa-chart-simple",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -467,35 +1099,123 @@
         "math": [
             {
                 "id": "g9_1",
-                "title": "សមីការដឺក្រេទី២",
-                "icon": "fa-superscript",
+                "title": "ចំនួនពិត និងរ៉ាឌីកាល់កម្រិតខ្ពស់",
+                "icon": "fa-square-root-variable",
                 "color": "#8b5cf6",
                 "locked": false,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g9_2",
-                "title": "អនុគមន៍",
-                "icon": "fa-wave-square",
+                "title": "កន្សោមពិជគណិត និងការបំបែកជាផលគុណកត្តា",
+                "icon": "fa-cubes-stacked",
                 "color": "#ec4899",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g9_3",
-                "title": "ត្រីកោណមាត្រ",
+                "title": "សមីការដឺក្រេទី២ (ax²+bx+c=0, ដីសគ្រីមីណង់ Δ)",
+                "icon": "fa-superscript",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g9_4",
+                "title": "ប្រព័ន្ធសមីការដឺក្រេទី១ មានពីរអញ្ញាត",
+                "icon": "fa-table-cells",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g9_5",
+                "title": "វិសមីការដឺក្រេទី១ និងប្រព័ន្ធវិសមីការ",
+                "icon": "fa-not-equal",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g9_6",
+                "title": "អនុគមន៍លីនេអ៊ែរ y = ax + b និងក្រាហ្វ",
+                "icon": "fa-chart-line",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g9_7",
+                "title": "អនុគមន៍ y = ax² និងប៉ារ៉ាបូល",
+                "icon": "fa-wave-square",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g9_8",
+                "title": "ទ្រឹស្តីបទតាឡែស",
+                "icon": "fa-draw-polygon",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g9_9",
+                "title": "ទ្រឹស្តីបទពីតាករ និងអនុវត្តន៍",
                 "icon": "fa-ruler-triangle",
                 "color": "#ef4444",
                 "locked": true,
                 "gameId": "math_geometry"
             },
             {
-                "id": "g9_4",
-                "title": "រង្វង់ និងបន្ទាត់ប៉ះ",
-                "icon": "fa-circle-notch",
+                "id": "g9_10",
+                "title": "ត្រីកោណមាត្រក្នុងត្រីកោណកែង (sin, cos, tan)",
+                "icon": "fa-compass-drafting",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "math_geometry"
+            },
+            {
+                "id": "g9_11",
+                "title": "ផលធៀបត្រីកោណមាត្រ និងមុំពិសេស (30°, 45°, 60°)",
+                "icon": "fa-shapes",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g9_12",
+                "title": "រង្វង់ (មុំចារឹកក្នុងរង្វង់ មុំផ្ចិត អង្កត់ធ្នូ)",
+                "icon": "fa-circle-notch",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g9_13",
+                "title": "ធរណីមាត្រក្នុងលំហ (ស្វ៊ែរ កោន ពីរ៉ាមីត)",
+                "icon": "fa-cube",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g9_14",
+                "title": "ស្ថិតិ និងការវិភាគទិន្នន័យ",
+                "icon": "fa-chart-pie",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_stats"
+            },
+            {
+                "id": "g9_15",
+                "title": "ប្រូបាប៊ីលីតេបឋម",
+                "icon": "fa-dice",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -503,7 +1223,7 @@
         "math": [
             {
                 "id": "g10_1",
-                "title": "តក្កវិទ្យា និងសំណុំ",
+                "title": "តក្កវិទ្យា និងសំណុំ (∪, ∩, ∈, ⊂)",
                 "icon": "fa-object-ungroup",
                 "color": "#10b981",
                 "locked": false,
@@ -511,17 +1231,105 @@
             },
             {
                 "id": "g10_2",
-                "title": "អនុគមន៍ដឺក្រេទី២",
-                "icon": "fa-chart-line",
+                "title": "ចំនួនពិត និងតម្លៃដាច់ខាត (|x|)",
+                "icon": "fa-calculator",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g10_3",
-                "title": "ប្រូបាប៊ីលីតេ",
-                "icon": "fa-dice",
+                "title": "សមីការ និងវិសមីការដឺក្រេទី២",
+                "icon": "fa-superscript",
                 "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g10_4",
+                "title": "សមីការ និងវិសមីការអសនិទាន",
+                "icon": "fa-square-root-variable",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g10_5",
+                "title": "អនុគមន៍ និងក្រាហ្វ (ដែនកំណត់ សំណុំរូបភាព)",
+                "icon": "fa-chart-line",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g10_6",
+                "title": "ពហុធា និងទ្រឹស្តីបទបេស៊ូ (Bézout Theorem)",
+                "icon": "fa-layer-group",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g10_7",
+                "title": "ផលធៀបត្រីកោណមាត្រ និងរូបមន្តត្រីកោណមាត្រ",
+                "icon": "fa-compass-drafting",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_8",
+                "title": "ទ្រឹស្តីបទស៊ីនុស និងកូស៊ីនុស",
+                "icon": "fa-ruler-combined",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_9",
+                "title": "វ៉ិចទ័រក្នុងប្លង់ និងផលគុណស្កាលែ",
+                "icon": "fa-arrow-right",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_10",
+                "title": "សមីការបន្ទាត់ក្នុងប្លង់",
+                "icon": "fa-pen-ruler",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_11",
+                "title": "សមីការរង្វង់",
+                "icon": "fa-circle-notch",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_12",
+                "title": "ប្លង់ និងបន្ទាត់ក្នុងលំហ",
+                "icon": "fa-shapes",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_13",
+                "title": "បរិមាត្រ ផ្ទៃ និងមាឌក្នុងលំហ",
+                "icon": "fa-cube",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g10_14",
+                "title": "ស្ថិតិ (គម្លាតស្ដង់ដា និងវ៉ារ្យ៉ង់)",
+                "icon": "fa-chart-simple",
+                "color": "#3b82f6",
                 "locked": true,
                 "gameId": "math_stats"
             }
@@ -531,7 +1339,7 @@
         "math": [
             {
                 "id": "g11_1",
-                "title": "ស្វ៊ីតនព្វន្ត និងធរណីមាត្រ",
+                "title": "ស្វ៊ីតចំនួនពិត (ស្វ៊ីតនព្វន្ត)",
                 "icon": "fa-stairs",
                 "color": "#ec4899",
                 "locked": false,
@@ -539,19 +1347,107 @@
             },
             {
                 "id": "g11_2",
-                "title": "ម៉ាទ្រីស (Matrix)",
-                "icon": "fa-border-all",
+                "title": "ស្វ៊ីតធរណីមាត្រ និងផលបូកតួ",
+                "icon": "fa-arrow-trend-up",
                 "color": "#ef4444",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g11_3",
-                "title": "លីមីតនៃអនុគមន៍",
-                "icon": "fa-arrows-to-dot",
+                "title": "ម៉ាទ្រីស (Matrix 2x2, 3x3) និងដេទែមីណង់",
+                "icon": "fa-border-all",
                 "color": "#f59e0b",
                 "locked": true,
                 "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_4",
+                "title": "ប្រព័ន្ធសមីការលីនេអ៊ែរ (វិធីក្រាមែ Cramer)",
+                "icon": "fa-table-cells",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_5",
+                "title": "អនុគមន៍អិចស្ប៉ូណង់ស្យែល (Exponential)",
+                "icon": "fa-chart-line",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_6",
+                "title": "អនុគមន៍លោការីត (Logarithm: ln, log)",
+                "icon": "fa-calculator",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_7",
+                "title": "ត្រីកោណមាត្រកម្រិតខ្ពស់ និងសមីការត្រីកោណមាត្រ",
+                "icon": "fa-compass-drafting",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g11_8",
+                "title": "លីមីតនៃអនុគមន៍ (រាងមិនកំណត់ 0/0, ∞/∞)",
+                "icon": "fa-arrows-to-dot",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_9",
+                "title": "ដេរីវេនៃអនុគមន៍ និងអត្រាបម្រែបម្រួល",
+                "icon": "fa-arrow-trend-up",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_10",
+                "title": "អថេរភាព និងក្រាហ្វអនុគមន៍",
+                "icon": "fa-wave-square",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g11_11",
+                "title": "កោនិក (ប៉ារ៉ាបូល អេលីប អ៊ីពែបូល)",
+                "icon": "fa-draw-polygon",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g11_12",
+                "title": "វ៉ិចទ័រក្នុងលំហ (3D Vectors)",
+                "icon": "fa-cube",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g11_13",
+                "title": "ផលគុណនៃពីរវ៉ិចទ័រ និងផលគុណចម្រុះ",
+                "icon": "fa-arrows-split-up-and-left",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "math_geometry"
+            },
+            {
+                "id": "g11_14",
+                "title": "បន្សំ តម្រៀប និងប្រូបាប",
+                "icon": "fa-dice",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "math_stats"
             }
         ]
     },
@@ -559,35 +1455,115 @@
         "math": [
             {
                 "id": "g12_1",
-                "title": "ដេរីវេ",
-                "icon": "fa-arrow-trend-up",
+                "title": "លីមីតនៃអនុគមន៍ និងភាពជាប់",
+                "icon": "fa-arrows-to-dot",
                 "color": "#10b981",
                 "locked": false,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g12_2",
-                "title": "អាំងតេក្រាល",
-                "icon": "fa-f",
+                "title": "ដេរីវេ និងអនុវត្តន៍ដេរីវេ (បរមា, បន្ទាត់ប៉ះ)",
+                "icon": "fa-arrow-trend-up",
                 "color": "#3b82f6",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g12_3",
-                "title": "សមីការឌីផេរ៉ង់ស្យែល",
-                "icon": "fa-infinity",
+                "title": "ការសិក្សាអថេរភាព និងសង់ក្រាហ្វនៃអនុគមន៍",
+                "icon": "fa-chart-line",
                 "color": "#8b5cf6",
                 "locked": true,
                 "gameId": "algebra_balance"
             },
             {
                 "id": "g12_4",
-                "title": "ធរណីមាត្រក្នុងលំហ",
-                "icon": "fa-cube",
+                "title": "អនុគមន៍អិចស្ប៉ូណង់ស្យែល និងលោការីតធម្មជាតិ (e, ln)",
+                "icon": "fa-calculator",
                 "color": "#ec4899",
                 "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_5",
+                "title": "ព្រីមីទីវ និងអាំងតេក្រាលមិនកំណត់",
+                "icon": "fa-infinity",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_6",
+                "title": "អាំងតេក្រាលកំណត់ (Definite Integrals)",
+                "icon": "fa-f",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_7",
+                "title": "វិធីសាស្ត្រគណនាអាំងតេក្រាល (ដោយផ្នែក និងប្តូរអថេរ)",
+                "icon": "fa-subscript",
+                "color": "#10b981",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_8",
+                "title": "អនុវត្តន៍អាំងតេក្រាល (ផ្ទៃក្រឡា និងមាឌសូលីតបរិវត្ត)",
+                "icon": "fa-cube",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_9",
+                "title": "សមីការឌីផេរ៉ង់ស្យែលលំដាប់១ និងលំដាប់២",
+                "icon": "fa-square-root-variable",
+                "color": "#8b5cf6",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_10",
+                "title": "ចំនួនកុំផ្លិច (ទម្រង់ពីជគណិត និងត្រីកោណមាត្រ, ដឺម័រ)",
+                "icon": "fa-atom",
+                "color": "#ec4899",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_11",
+                "title": "បន្សំ តម្រៀប និងទ្រឹស្តីបទទេ្វធាញូតុន",
+                "icon": "fa-layer-group",
+                "color": "#ef4444",
+                "locked": true,
+                "gameId": "algebra_balance"
+            },
+            {
+                "id": "g12_12",
+                "title": "ច្បាប់ប្រូបាប៊ីលីតេ និងអថេរចៃដន្យ",
+                "icon": "fa-dice",
+                "color": "#f59e0b",
+                "locked": true,
+                "gameId": "math_stats"
+            },
+            {
+                "id": "g12_13",
+                "title": "ធរណីមាត្រវិភាគក្នុងលំហ (កូអរដោណេ, ប្លង់, បន្ទាត់)",
+                "icon": "fa-cubes",
+                "color": "#10b981",
+                "locked": true,
                 "gameId": "math_geometry"
+            },
+            {
+                "id": "g12_14",
+                "title": "វិញ្ញាសាត្រៀមប្រឡងបាក់ឌុប (BacII Exam Preparation)",
+                "icon": "fa-graduation-cap",
+                "color": "#3b82f6",
+                "locked": true,
+                "gameId": "algebra_balance"
             }
         ]
     }
